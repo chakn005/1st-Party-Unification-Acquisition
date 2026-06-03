@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1st Party Unification Acquisition — Leadership Console</title>
+  <link rel="stylesheet" href="shared/theme.css">
+  <link rel="stylesheet" href="shared/layout.css">
+</head>
+<body>
+  <header class="app-header">
+    <h1>1st Party Unification Acquisition</h1>
+    <div class="meta" id="header-meta">Loading…</div>
+  </header>
+
+  <nav class="app-tabs" id="tabs">
+    <button class="active" data-tab="dashboard">Executive Dashboard</button>
+    <button data-tab="hierarchy">Status Hierarchy</button>
+    <button data-tab="architecture">Architecture</button>
+    <button data-tab="swimlane">Implementation Flow</button>
+    <button data-tab="brief">Program Brief</button>
+  </nav>
+
+  <main class="app-main" id="app">
+    <div id="sync-banner" class="sync-banner" style="display:none"></div>
+
+    <section class="panel active" data-panel="dashboard">
+      <div class="level-section">
+        <h2>Level 0 — Program</h2>
+        <p class="level-sub">Roll-up across all implementation phases · Epic <a href="https://jira.disney.com/browse/CPTR-72227" class="jira-link" target="_blank" rel="noopener">CPTR-72227</a></p>
+        <div id="exec-kpis"></div>
+      </div>
+      <div class="level-section">
+        <h2>Level 1 — Phases</h2>
+        <p class="level-sub">Six delivery phases aligned to the acquisition swimlane</p>
+        <div class="phase-grid" id="phase-grid"></div>
+        <div class="detail-drawer" id="phase-detail"></div>
+      </div>
+      <div id="system-status"></div>
+    </section>
+
+    <section class="panel" data-panel="hierarchy">
+      <div class="level-section">
+        <h2>Multi-level status view</h2>
+        <p class="level-sub">Program → Epic → Phase → System → Jira work items — for leadership tracking</p>
+        <div class="hierarchy-tree" id="hierarchy-table"></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="architecture">
+      <div class="level-section">
+        <h2>Target architecture</h2>
+        <p class="level-sub">Rights &amp; avails and assets/media through S3 into Unified Acquisition and DTC platforms</p>
+        <div id="arch-pipeline"></div>
+        <div class="detail-drawer" id="arch-detail"></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="swimlane">
+      <div class="level-section">
+        <h2>Implementation swimlane</h2>
+        <p class="level-sub">20 workflow steps across CPM, Rightsline, Falcon, DTC UA, Catalog, SIP, and AMP</p>
+        <div class="swimlane-wrap" id="swimlane-board"></div>
+        <div class="detail-drawer" id="swimlane-detail"></div>
+      </div>
+    </section>
+
+    <section class="panel" data-panel="brief">
+      <div id="brief-panel"></div>
+    </section>
+
+    <div id="jira-footer"></div>
+  </main>
+
+  <script src="shared/data.js?v=20260603160000"></script>
+  <script src="shared/utils.js?v=20260603160000"></script>
+  <script src="shared/jira.js?v=20260603160000"></script>
+  <script src="shared/rollup.js?v=20260603160000"></script>
+  <script src="shared/dashboard.js?v=20260603160000"></script>
+  <script src="shared/architecture.js?v=20260603160000"></script>
+  <script src="shared/swimlane.js?v=20260603160000"></script>
+  <script src="shared/hierarchy.js?v=20260603160000"></script>
+  <script>
+    initTabs(document.getElementById("app"));
+    initDashboard();
+    renderArchitecture();
+    renderSwimlane();
+    renderHierarchy();
+    renderBrief();
+    document.getElementById("jira-footer").innerHTML = renderJiraMetaFooter();
+  </script>
+</body>
+</html>

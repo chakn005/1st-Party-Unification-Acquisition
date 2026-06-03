@@ -1,0 +1,36 @@
+name: Jira Epic Sync
+
+# Disney Jira requires VPN. Run locally: python scripts/sync-from-jira.py
+# Or use a self-hosted runner with network access to jira.disney.com.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-sync.txt
+      - name: Sync epic CPTR-72227
+        env:
+          JIRA_SERVER: ${{ secrets.JIRA_SERVER }}
+          JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
+        run: python scripts/sync-from-jira.py
+      - name: Commit synced data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add shared/data.json shared/data.js index.html
+          if git diff --staged --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git commit -m "Auto-sync Jira epic CPTR-72227"
+          git push
