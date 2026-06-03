@@ -28,6 +28,14 @@ Pulls epic status, Xray stats for six test plans (three SIP/AMP primaries plus e
 
 ## GitHub Pages
 
-Settings → Pages → **GitHub Actions** → push `main`.
+**URL:** https://chakn005.github.io/1st-Party-Unification-Acquisition/
+
+One-time setup (required or the site stays 404):
+
+1. Push to `main` (workflow publishes the `gh-pages` branch)
+2. Open [Repository Settings → Pages](https://github.com/chakn005/1st-Party-Unification-Acquisition/settings/pages)
+3. Under **Build and deployment**, set **Source** to **Deploy from a branch**
+4. Branch: **gh-pages** · Folder: **/ (root)** · Save
+5. Wait 1–2 minutes, then open the URL above
 
 Repository: https://github.com/chakn005/1st-Party-Unification-Acquisition
