@@ -4,6 +4,8 @@
   width: 100%;
   max-width: 100%;
   min-width: 0;
+  font-size: var(--font-content);
+  line-height: 1.55;
 }
 
 .wf-ua-exec {
@@ -28,9 +30,9 @@
 
 .wf-ua-hero p {
   margin: 0;
-  font-size: 0.88rem;
+  font-size: var(--font-content);
   opacity: 0.92;
-  line-height: 1.5;
+  line-height: 1.55;
   max-width: 72ch;
 }
 
@@ -38,7 +40,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  font-size: 0.75rem;
+  font-size: var(--font-content);
   color: var(--disney-muted);
   margin-bottom: 0.5rem;
 }
@@ -154,7 +156,7 @@
 
 .wf-arch-group h4 {
   margin: 0 0 0.5rem;
-  font-size: 0.68rem;
+  font-size: var(--font-content);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -166,8 +168,8 @@
   background: var(--disney-surface);
   border: 1px solid var(--disney-border);
   border-radius: 6px;
-  padding: 0.35rem 0.5rem;
-  font-size: 0.72rem;
+  padding: 0.4rem 0.55rem;
+  font-size: var(--font-content);
   font-weight: 600;
   color: var(--disney-blue);
   cursor: pointer;
@@ -205,7 +207,7 @@
 
 .wf-arch-object h4 {
   margin: 0 0 0.35rem;
-  font-size: 0.72rem;
+  font-size: var(--font-content);
   color: var(--disney-blue);
 }
 
@@ -213,7 +215,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  font-size: 0.65rem;
+  font-size: var(--font-content);
   color: var(--disney-muted);
 }
 
@@ -230,7 +232,7 @@
   background: linear-gradient(180deg, #e8f0fa, #dbeafe);
   border: 1px solid var(--disney-blue-mid);
   border-radius: 6px 6px 10px 10px;
-  font-size: 0.7rem;
+  font-size: var(--font-content);
   font-weight: 700;
   color: var(--disney-blue);
   text-align: center;
@@ -248,7 +250,7 @@
 .wf-arch-dtc h4 {
   margin: 0 0 0.5rem;
   text-align: center;
-  font-size: 0.75rem;
+  font-size: var(--font-content);
   color: var(--disney-blue);
   font-weight: 700;
 }
@@ -258,7 +260,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  font-size: 0.68rem;
+  font-size: var(--font-content);
   font-weight: 600;
   color: var(--disney-blue);
   padding: 0.4rem 0.6rem;
@@ -275,7 +277,7 @@
 
 .wf-api-layer h5 {
   margin: 0 0 0.5rem;
-  font-size: 0.72rem;
+  font-size: var(--font-content);
   text-transform: uppercase;
   color: var(--disney-red);
   letter-spacing: 0.04em;
@@ -288,7 +290,7 @@
 }
 
 .wf-api-item {
-  font-size: 0.75rem;
+  font-size: var(--font-content);
   color: var(--disney-text);
   padding-left: 1rem;
   position: relative;
@@ -308,7 +310,7 @@
 
 /* Swimlane diagram (docx image 2) */
 .wf-swim-title {
-  font-size: 0.95rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--disney-blue);
   margin: 1.25rem 0 0.5rem;
@@ -328,7 +330,7 @@
 
 .wf-swim-lane {
   display: grid;
-  grid-template-columns: 168px 1fr;
+  grid-template-columns: 200px 1fr;
   border-bottom: 1px solid var(--disney-border);
   min-height: 64px;
 }
@@ -338,7 +340,7 @@
 .wf-swim-lane-label {
   padding: 0.55rem 0.65rem;
   background: var(--disney-blue-soft);
-  font-size: 0.72rem;
+  font-size: var(--font-content);
   font-weight: 600;
   color: var(--disney-blue);
   border-right: 1px solid var(--disney-border);
@@ -361,20 +363,20 @@
 }
 
 .wf-swim-step {
-  flex: 0 0 200px;
+  flex: 0 0 260px;
   background: #f8fafc;
   border: 1px solid var(--disney-border);
   border-radius: 8px;
-  padding: 0.5rem 0.45rem;
-  font-size: 0.68rem;
-  line-height: 1.35;
+  padding: 0.55rem 0.5rem;
+  font-size: var(--font-content);
+  line-height: 1.55;
   cursor: default;
   pointer-events: none;
   position: relative;
 }
 
 .wf-swim-step-num {
-  font-size: 0.6rem;
+  font-size: var(--font-content);
   font-weight: 800;
   color: var(--disney-blue-mid);
   margin-bottom: 0.15rem;
@@ -387,7 +389,7 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--disney-muted);
-  font-size: 0.85rem;
+  font-size: var(--font-content);
   z-index: 1;
 }
 
@@ -396,7 +398,7 @@
 }
 
 .wf-swim-phase {
-  font-size: 0.6rem;
+  font-size: var(--font-content);
   font-weight: 700;
   text-transform: uppercase;
   color: var(--disney-muted);
@@ -416,20 +418,20 @@
 
 .wf-detail-panel h3 {
   margin: 0 0 0.4rem;
-  font-size: 0.95rem;
+  font-size: 1.125rem;
   color: var(--disney-blue);
 }
 
 .wf-detail-panel p {
   margin: 0.35rem 0;
-  font-size: 0.85rem;
+  font-size: var(--font-content);
   color: var(--disney-muted);
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .wf-detail-milestone {
   margin-top: 0.65rem;
-  font-size: 0.8rem;
+  font-size: var(--font-content);
 }
 
 @media (max-width: 900px) {
@@ -437,5 +439,5 @@
     min-width: 720px;
     grid-template-columns: 130px 130px 80px 110px 1fr;
   }
-  .wf-swim-step { flex: 0 0 170px; }
+  .wf-swim-step { flex: 0 0 220px; }
 }

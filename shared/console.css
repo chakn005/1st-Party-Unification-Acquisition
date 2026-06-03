@@ -1,5 +1,15 @@
 /* Acquisition console — extends Disney enterprise theme */
 
+.disney-main,
+.disney-main p,
+.disney-main li,
+.disney-main td,
+.disney-main th,
+.disney-main label,
+.disney-main button {
+  font-size: var(--font-content);
+}
+
 .disney-header-inner {
   display: flex;
   justify-content: space-between;
@@ -19,7 +29,7 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 0.25rem;
-  font-size: 0.875rem;
+  font-size: var(--font-content);
   color: var(--disney-muted);
 }
 
@@ -53,11 +63,11 @@
   margin-bottom: 1.25rem;
 }
 .epic-strip h2 { margin: 0; font-size: 1rem; color: var(--disney-blue); font-weight: 600; }
-.epic-strip .epic-meta { font-size: 0.82rem; color: var(--disney-muted); margin-top: 0.25rem; }
+.epic-strip .epic-meta { font-size: var(--font-content); color: var(--disney-muted); margin-top: 0.25rem; }
 
 .kpi .v { font-size: 1.5rem; font-weight: 700; color: var(--disney-blue); }
 .kpi .l {
-  font-size: 0.68rem;
+  font-size: var(--font-content);
   color: var(--disney-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -65,16 +75,16 @@
 }
 
 .section-title {
-  font-size: 0.95rem;
+  font-size: 1.125rem;
   color: var(--disney-blue);
   margin: 0 0 0.35rem;
   font-weight: 600;
 }
 .section-sub {
-  font-size: 0.82rem;
+  font-size: var(--font-content);
   color: var(--disney-muted);
   margin: 0 0 1rem;
-  line-height: 1.45;
+  line-height: 1.55;
 }
 
 .milestone-section {
@@ -103,11 +113,11 @@
   color: var(--disney-blue);
   font-weight: 700;
 }
-.milestone-section-sub { margin: 0.25rem 0 0; font-size: 0.82rem; color: var(--disney-muted); }
+.milestone-section-sub { margin: 0.25rem 0 0; font-size: var(--font-content); color: var(--disney-muted); }
 .milestone-section-stats { text-align: right; }
-.milestone-rollup { display: block; font-size: 0.75rem; color: var(--disney-muted); margin-top: 0.35rem; }
+.milestone-rollup { display: block; font-size: var(--font-content); color: var(--disney-muted); margin-top: 0.35rem; }
 .milestone-block-label {
-  font-size: 0.78rem;
+  font-size: var(--font-content);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--disney-blue-mid);
@@ -129,8 +139,8 @@
   max-width: 520px;
 }
 .plan-card-primary { border-color: var(--disney-blue-mid); background: var(--disney-blue-soft); }
-.plan-card-id { margin: 0 0 0.4rem; font-weight: 600; font-size: 0.88rem; }
-.plan-card-meta, .plan-card-owner { font-size: 0.78rem; color: var(--disney-muted); margin: 0.35rem 0; }
+.plan-card-id { margin: 0 0 0.4rem; font-weight: 600; font-size: var(--font-content); }
+.plan-card-meta, .plan-card-owner { font-size: var(--font-content); color: var(--disney-muted); margin: 0.35rem 0; }
 
 .disney-tabs button {
   cursor: pointer;
@@ -141,7 +151,7 @@
 
 .st-badge {
   display: inline-block;
-  font-size: 0.65rem;
+  font-size: var(--font-content);
   font-weight: 700;
   padding: 0.18rem 0.5rem;
   border-radius: 999px;
@@ -169,7 +179,7 @@
 .exec-bar--completed .exec-bar-fill { background: var(--disney-completed); }
 .exec-bar--in-progress .exec-bar-fill { background: var(--disney-progress); }
 .exec-bar--blocked .exec-bar-fill { background: var(--disney-red); }
-.exec-stats { display: flex; flex-wrap: wrap; gap: 0.65rem; font-size: 0.75rem; color: var(--disney-muted); }
+.exec-stats { display: flex; flex-wrap: wrap; gap: 0.65rem; font-size: var(--font-content); color: var(--disney-muted); }
 .exec-stats strong { color: var(--disney-text); }
 
 .jira-link { color: var(--disney-blue-mid); font-weight: 600; text-decoration: none; }
@@ -198,14 +208,14 @@
 }
 .wf-zone-head h4 {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: var(--font-content);
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--disney-blue);
   font-weight: 600;
 }
 .wf-zone-milestone {
-  font-size: 0.7rem;
+  font-size: var(--font-content);
   padding: 0.2rem 0.5rem;
   border-radius: 6px;
   background: var(--disney-blue-soft);
@@ -219,7 +229,7 @@
   border: 2px solid var(--disney-border);
   border-radius: 8px;
   padding: 0.5rem 0.45rem;
-  font-size: 0.7rem;
+  font-size: var(--font-content);
   cursor: pointer;
   background: #f8fafc;
   transition: border-color 0.12s, box-shadow 0.12s;
@@ -231,8 +241,8 @@
 .wf-node.status-completed { border-left: 4px solid var(--disney-completed); }
 .wf-node.status-progress { border-left: 4px solid var(--disney-progress); }
 .wf-node.status-pending { border-left: 4px solid var(--disney-pending); }
-.wf-node strong { display: block; font-size: 0.74rem; color: var(--disney-blue); margin-bottom: 0.15rem; }
-.wf-node span.sys { color: var(--disney-muted); font-size: 0.62rem; }
+.wf-node strong { display: block; font-size: var(--font-content); color: var(--disney-blue); margin-bottom: 0.15rem; }
+.wf-node span.sys { color: var(--disney-muted); font-size: var(--font-content); }
 .wf-arrow { color: var(--disney-muted); align-self: center; font-size: 1rem; }
 
 .wf-detail {
@@ -242,9 +252,9 @@
   padding: 1rem 1.15rem;
   margin-top: 1rem;
   min-height: 80px;
-  font-size: 0.88rem;
+  font-size: var(--font-content);
 }
-.wf-detail h3 { margin: 0 0 0.4rem; font-size: 0.95rem; color: var(--disney-blue); }
+.wf-detail h3 { margin: 0 0 0.4rem; font-size: 1.125rem; color: var(--disney-blue); }
 
 /* QA Evidence tab */
 .evidence-grid {
@@ -259,9 +269,9 @@
   border-radius: 10px;
   padding: 1rem 1.15rem;
 }
-.evidence-card h4 { margin: 0.35rem 0 0.5rem; font-size: 0.9rem; color: var(--disney-blue); }
+.evidence-card h4 { margin: 0.35rem 0 0.5rem; font-size: 1.125rem; color: var(--disney-blue); }
 .evidence-tag {
-  font-size: 0.65rem;
+  font-size: var(--font-content);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -270,11 +280,11 @@
   padding: 0.15rem 0.45rem;
   border-radius: 4px;
 }
-.evidence-meta, .evidence-owner { font-size: 0.78rem; color: var(--disney-muted); margin: 0.35rem 0; }
+.evidence-meta, .evidence-owner { font-size: var(--font-content); color: var(--disney-muted); margin: 0.35rem 0; }
 .evidence-open {
   display: inline-block;
   margin-top: 0.5rem;
-  font-size: 0.8rem;
+  font-size: var(--font-content);
   font-weight: 600;
   color: var(--disney-blue-mid);
   text-decoration: none;
@@ -293,8 +303,8 @@
   border-radius: 10px;
   padding: 1rem;
 }
-.evidence-artifact-card h4 { margin: 0 0 0.35rem; color: var(--disney-blue); font-size: 0.9rem; }
-.artifact-meta { font-size: 0.78rem; color: var(--disney-muted); margin-bottom: 0.5rem; }
+.evidence-artifact-card h4 { margin: 0 0 0.35rem; color: var(--disney-blue); font-size: 1.125rem; }
+.artifact-meta { font-size: var(--font-content); color: var(--disney-muted); margin-bottom: 0.5rem; }
 .ref-diagram {
   max-width: 100%;
   border: 1px solid var(--disney-border);
@@ -309,7 +319,7 @@
   border-radius: 10px;
   margin-bottom: 1rem;
 }
-.related-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.related-table { width: 100%; border-collapse: collapse; font-size: var(--font-content); }
 .related-table th, .related-table td {
   padding: 0.6rem 0.75rem;
   border-bottom: 1px solid var(--disney-border);
@@ -318,7 +328,7 @@
 .related-table th {
   background: var(--disney-blue-soft);
   color: var(--disney-blue);
-  font-size: 0.72rem;
+  font-size: var(--font-content);
   text-transform: uppercase;
   font-weight: 600;
 }
@@ -326,7 +336,7 @@
 
 .footer-meta {
   margin-top: 2rem;
-  font-size: 0.76rem;
+  font-size: var(--font-content);
   color: var(--disney-muted);
   padding-top: 1rem;
   border-top: 1px solid var(--disney-border);
@@ -337,7 +347,7 @@
   border: 1px solid rgba(217, 119, 6, 0.25);
   border-radius: 8px;
   padding: 0.65rem 0.85rem;
-  font-size: 0.82rem;
+  font-size: var(--font-content);
   margin-bottom: 1rem;
   display: none;
   color: var(--disney-text);

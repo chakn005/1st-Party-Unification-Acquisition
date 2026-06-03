@@ -21,12 +21,15 @@
   --cpd-surface: var(--disney-surface);
   --cpd-accent: var(--disney-blue-mid);
   --cpd-new: var(--disney-red);
+  --font-content: 12px;
 }
 
 * { box-sizing: border-box; }
 
 body {
   font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-size: var(--font-content);
+  line-height: 1.55;
   background: var(--disney-bg);
   color: var(--disney-text);
   margin: 0;
@@ -60,11 +63,11 @@ body {
 .disney-header .sub,
 .disney-header span {
   color: var(--disney-muted);
-  font-size: 0.875rem;
+  font-size: var(--font-content);
 }
 
 .hub {
-  font-size: 0.8rem;
+  font-size: var(--font-content);
   color: var(--disney-blue-mid);
   text-decoration: none;
   font-weight: 500;
@@ -88,7 +91,7 @@ body {
   padding: 0.85rem 1.25rem;
   cursor: pointer;
   color: var(--disney-muted);
-  font-size: 0.9rem;
+  font-size: var(--font-content);
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
   font-family: inherit;
@@ -127,7 +130,7 @@ body {
 .matrix-cell {
   cursor: pointer;
   user-select: none;
-  font-size: 0.72rem;
+  font-size: var(--font-content);
   font-weight: 600;
   padding: 0.55rem 0.35rem;
   text-align: center;
@@ -139,10 +142,10 @@ body {
 .matrix-cell:hover { opacity: 0.85; }
 
 .matrix-note {
-  font-size: 0.78rem;
+  font-size: var(--font-content);
   color: var(--disney-muted);
   margin: 0.5rem 0 1rem;
-  line-height: 1.45;
+  line-height: 1.55;
 }
 
 .kpi-row, .cpd-int-kpi-row {
@@ -167,7 +170,7 @@ body {
 }
 
 .kpi .lbl, .cpd-int-kpi .l {
-  font-size: 0.75rem;
+  font-size: var(--font-content);
   color: var(--disney-muted);
   margin-top: 0.25rem;
 }
@@ -182,7 +185,7 @@ body {
 table.matrix {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.8rem;
+  font-size: var(--font-content);
 }
 
 table.matrix th,
@@ -205,7 +208,7 @@ table.matrix td:first-child {
 }
 
 .section-title {
-  font-size: 0.95rem;
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--disney-blue);
   margin: 1.25rem 0 0.75rem;
@@ -281,14 +284,14 @@ table.matrix td:first-child {
 
 .disney-hub-card p {
   color: var(--disney-muted);
-  font-size: 0.9rem;
-  line-height: 1.45;
+  font-size: var(--font-content);
+  line-height: 1.55;
 }
 
 .disney-hub-card .tag {
   display: inline-block;
   margin-top: 0.75rem;
-  font-size: 0.75rem;
+  font-size: var(--font-content);
   padding: 0.2rem 0.55rem;
   border-radius: 999px;
   background: var(--disney-blue-soft);
@@ -300,5 +303,5 @@ table.matrix td:first-child {
   padding-top: 1rem;
   border-top: 1px solid var(--disney-border);
   color: var(--disney-muted);
-  font-size: 0.85rem;
+  font-size: var(--font-content);
 }
