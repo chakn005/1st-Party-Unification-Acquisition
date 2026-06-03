@@ -1,0 +1,344 @@
+/* Acquisition console — extends Disney enterprise theme */
+
+.disney-header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.disney-header-brand h1 {
+  margin: 0.25rem 0 0.2rem;
+}
+
+.disney-header-meta {
+  text-align: right;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--disney-muted);
+}
+
+.disney-header-env {
+  font-weight: 600;
+  color: var(--disney-blue);
+}
+
+.disney-header-epic {
+  font-weight: 500;
+}
+
+.disney-main { max-width: 1280px; }
+
+.disney-header .jira-epic-link {
+  color: var(--disney-blue-mid);
+  font-weight: 600;
+  text-decoration: none;
+}
+.disney-header .jira-epic-link:hover { text-decoration: underline; }
+
+.epic-strip {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.25rem;
+}
+.epic-strip h2 { margin: 0; font-size: 1rem; color: var(--disney-blue); font-weight: 600; }
+.epic-strip .epic-meta { font-size: 0.82rem; color: var(--disney-muted); margin-top: 0.25rem; }
+
+.kpi .v { font-size: 1.5rem; font-weight: 700; color: var(--disney-blue); }
+.kpi .l {
+  font-size: 0.68rem;
+  color: var(--disney-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-top: 0.2rem;
+}
+
+.section-title {
+  font-size: 0.95rem;
+  color: var(--disney-blue);
+  margin: 0 0 0.35rem;
+  font-weight: 600;
+}
+.section-sub {
+  font-size: 0.82rem;
+  color: var(--disney-muted);
+  margin: 0 0 1rem;
+  line-height: 1.45;
+}
+
+.milestone-section {
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 12px;
+  padding: 1.25rem 1.35rem;
+  margin-bottom: 1.5rem;
+}
+.milestone-section[data-milestone="milestone1"] { border-left: 5px solid #0d9488; }
+.milestone-section[data-milestone="milestone2"] { border-left: 5px solid #7c3aed; }
+.milestone-section[data-milestone="amp"] { border-left: 5px solid var(--disney-red); }
+.milestone-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--disney-border);
+}
+.milestone-section-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--disney-blue);
+  font-weight: 700;
+}
+.milestone-section-sub { margin: 0.25rem 0 0; font-size: 0.82rem; color: var(--disney-muted); }
+.milestone-section-stats { text-align: right; }
+.milestone-rollup { display: block; font-size: 0.75rem; color: var(--disney-muted); margin-top: 0.35rem; }
+.milestone-block-label {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--disney-blue-mid);
+  margin: 0 0 0.65rem;
+  font-weight: 600;
+}
+.milestone-section-compact { padding: 1rem; margin-bottom: 1rem; }
+
+#milestone1-panel .milestone-section,
+#milestone2-panel .milestone-section {
+  margin-bottom: 0;
+}
+.plan-cards-row { margin-bottom: 1.25rem; }
+.plan-card {
+  background: #f8fafc;
+  border: 1px solid var(--disney-border);
+  border-radius: 10px;
+  padding: 1rem;
+  max-width: 520px;
+}
+.plan-card-primary { border-color: var(--disney-blue-mid); background: var(--disney-blue-soft); }
+.plan-card-id { margin: 0 0 0.4rem; font-weight: 600; font-size: 0.88rem; }
+.plan-card-meta, .plan-card-owner { font-size: 0.78rem; color: var(--disney-muted); margin: 0.35rem 0; }
+
+.disney-tabs button {
+  cursor: pointer;
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
+}
+
+.st-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.18rem 0.5rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.status-completed { background: var(--disney-completed-bg); color: var(--disney-completed); }
+.status-progress { background: var(--disney-progress-bg); color: var(--disney-progress); }
+.status-pending { background: var(--disney-pending-bg); color: var(--disney-pending); }
+.status-blocked, .status-fail { background: var(--disney-red-soft); color: var(--disney-red); }
+
+.exec-bar {
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--disney-pending-bg);
+  margin: 0.55rem 0;
+}
+.exec-bar-fill {
+  height: 100%;
+  min-width: 0;
+  border-radius: 4px;
+  transition: width 0.2s ease;
+}
+.exec-bar--completed .exec-bar-fill { background: var(--disney-completed); }
+.exec-bar--in-progress .exec-bar-fill { background: var(--disney-progress); }
+.exec-bar--blocked .exec-bar-fill { background: var(--disney-red); }
+.exec-stats { display: flex; flex-wrap: wrap; gap: 0.65rem; font-size: 0.75rem; color: var(--disney-muted); }
+.exec-stats strong { color: var(--disney-text); }
+
+.jira-link { color: var(--disney-blue-mid); font-weight: 600; text-decoration: none; }
+.jira-link:hover { text-decoration: underline; }
+
+/* E2E Acquisition Pipeline tab */
+.wf-board {
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 10px;
+  padding: 1.15rem;
+  overflow-x: auto;
+}
+.wf-zone {
+  margin-bottom: 1.1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--disney-border);
+}
+.wf-zone:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.wf-zone-head {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 0.6rem;
+  flex-wrap: wrap;
+}
+.wf-zone-head h4 {
+  margin: 0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--disney-blue);
+  font-weight: 600;
+}
+.wf-zone-milestone {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  background: var(--disney-blue-soft);
+  color: var(--disney-blue);
+  font-weight: 600;
+}
+.wf-nodes { display: flex; flex-wrap: wrap; align-items: stretch; gap: 0.4rem; }
+.wf-node {
+  flex: 0 0 118px;
+  min-height: 78px;
+  border: 2px solid var(--disney-border);
+  border-radius: 8px;
+  padding: 0.5rem 0.45rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+  background: #f8fafc;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.wf-node:hover, .wf-node.selected {
+  border-color: var(--disney-blue-mid);
+  box-shadow: 0 4px 12px rgba(10, 42, 102, 0.1);
+}
+.wf-node.status-completed { border-left: 4px solid var(--disney-completed); }
+.wf-node.status-progress { border-left: 4px solid var(--disney-progress); }
+.wf-node.status-pending { border-left: 4px solid var(--disney-pending); }
+.wf-node strong { display: block; font-size: 0.74rem; color: var(--disney-blue); margin-bottom: 0.15rem; }
+.wf-node span.sys { color: var(--disney-muted); font-size: 0.62rem; }
+.wf-arrow { color: var(--disney-muted); align-self: center; font-size: 1rem; }
+
+.wf-detail {
+  background: var(--disney-blue-soft);
+  border: 1px solid var(--disney-border);
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
+  margin-top: 1rem;
+  min-height: 80px;
+  font-size: 0.88rem;
+}
+.wf-detail h3 { margin: 0 0 0.4rem; font-size: 0.95rem; color: var(--disney-blue); }
+
+/* QA Evidence tab */
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.evidence-card {
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
+}
+.evidence-card h4 { margin: 0.35rem 0 0.5rem; font-size: 0.9rem; color: var(--disney-blue); }
+.evidence-tag {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--disney-blue-mid);
+  background: var(--disney-blue-soft);
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+}
+.evidence-meta, .evidence-owner { font-size: 0.78rem; color: var(--disney-muted); margin: 0.35rem 0; }
+.evidence-open {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--disney-blue-mid);
+  text-decoration: none;
+}
+.evidence-open:hover { text-decoration: underline; }
+
+.evidence-artifacts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.evidence-artifact-card {
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 10px;
+  padding: 1rem;
+}
+.evidence-artifact-card h4 { margin: 0 0 0.35rem; color: var(--disney-blue); font-size: 0.9rem; }
+.artifact-meta { font-size: 0.78rem; color: var(--disney-muted); margin-bottom: 0.5rem; }
+.ref-diagram {
+  max-width: 100%;
+  border: 1px solid var(--disney-border);
+  border-radius: 8px;
+  margin-top: 0.65rem;
+}
+
+.related-table-wrap {
+  overflow-x: auto;
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+.related-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.related-table th, .related-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--disney-border);
+  text-align: left;
+}
+.related-table th {
+  background: var(--disney-blue-soft);
+  color: var(--disney-blue);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.related-table tr:hover td { background: #f8fafc; }
+
+.footer-meta {
+  margin-top: 2rem;
+  font-size: 0.76rem;
+  color: var(--disney-muted);
+  padding-top: 1rem;
+  border-top: 1px solid var(--disney-border);
+}
+
+.sync-note {
+  background: var(--disney-progress-bg);
+  border: 1px solid rgba(217, 119, 6, 0.25);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+  display: none;
+  color: var(--disney-text);
+}

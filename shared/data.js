@@ -1,114 +1,491 @@
-/* 1st Party Unification Acquisition — shared data (auto-generated from data.json) */
+/* Auto-generated from data.json — run scripts/sync-from-jira.py */
 window.ACQUISITION_DATA = {
   "program": "1st Party Unification Acquisition",
-  "epic": "CPTR-72227",
-  "env": "Implementation",
+  "epic": {
+    "key": "CPTR-72227",
+    "summary": "1st Party DTC Unified Acquisition \u2013 QA Coverage & Traceability",
+    "url": "https://jira.disney.com/browse/CPTR-72227",
+    "jiraStatus": "In Progress",
+    "status": "in-progress",
+    "assignee": "Niloy Chakraborty",
+    "updated": "2026-06-03"
+  },
+  "milestones": [
+    {
+      "id": "milestone1",
+      "name": "Milestone 1",
+      "subtitle": "SIP test plan \u2014 partner setup through avail ingestion & S3 handoff",
+      "workflowZoneIds": [
+        "partner",
+        "avail",
+        "storage-in"
+      ],
+      "testPlan": {
+        "id": "DMEDNINJA-17790",
+        "milestoneId": "milestone1",
+        "name": "SIP - 1st Party Acquisition - Milestone_1",
+        "shortName": "Milestone_1",
+        "url": "https://jira.disney.com/browse/DMEDNINJA-17790",
+        "jiraStatus": "In Progress",
+        "status": "in-progress",
+        "executionStatus": "in-progress",
+        "coverage": 100,
+        "pass": 19,
+        "fail": 0,
+        "blocked": 0,
+        "inProgress": 0,
+        "pending": 0,
+        "total": 19,
+        "updated": "2026-06-03",
+        "assignee": "Arsheya Sardar",
+        "issueType": "Test Plan"
+      },
+      "linkedTestPlans": []
+    },
+    {
+      "id": "milestone2",
+      "name": "Milestone 2",
+      "subtitle": "SIP test plan \u2014 AV delivery, catalog finalization, DTC surfacing",
+      "workflowZoneIds": [
+        "av-delivery",
+        "dtc-out"
+      ],
+      "testPlan": {
+        "id": "DMEDNINJA-17818",
+        "milestoneId": "milestone2",
+        "name": "SIP - 1st Party Acquisition - Milestone_2",
+        "shortName": "Milestone_2",
+        "url": "https://jira.disney.com/browse/DMEDNINJA-17818",
+        "jiraStatus": "In Progress",
+        "status": "in-progress",
+        "executionStatus": "in-progress",
+        "coverage": 100,
+        "pass": 3,
+        "fail": 0,
+        "blocked": 0,
+        "inProgress": 0,
+        "pending": 0,
+        "total": 3,
+        "updated": "2026-06-03",
+        "assignee": "Arsheya Sardar",
+        "issueType": "Test Plan"
+      },
+      "linkedTestPlans": [
+        {
+          "id": "RIGHTS-28094",
+          "milestoneId": "milestone2",
+          "name": "DTCFalcon-Capex-Version 26-06-TBD: Falcon Track 2 Delta Gemini Release",
+          "shortName": "DTCFalcon-Capex-Version 26-06-TBD: Falcon Track 2 Delta Gemini Release",
+          "url": "https://jira.disney.com/browse/RIGHTS-28094",
+          "jiraStatus": "In Progress",
+          "status": "in-progress",
+          "executionStatus": "in-progress",
+          "coverage": 8,
+          "pass": 23,
+          "fail": 0,
+          "blocked": 0,
+          "inProgress": 0,
+          "pending": 264,
+          "total": 287,
+          "updated": "2026-06-03",
+          "assignee": "Vijay Gajendra",
+          "issueType": "Test Plan"
+        },
+        {
+          "id": "RIGHTS-28225",
+          "milestoneId": "milestone2",
+          "name": "FDA - Test Plan - 26-06-24 FDA Delta Gemini Release 8.0.0",
+          "shortName": "26-06-24 FDA Delta Gemini Release 8.0.0",
+          "url": "https://jira.disney.com/browse/RIGHTS-28225",
+          "jiraStatus": "In Progress",
+          "status": "in-progress",
+          "executionStatus": "in-progress",
+          "coverage": 100,
+          "pass": 23,
+          "fail": 0,
+          "blocked": 0,
+          "inProgress": 0,
+          "pending": 0,
+          "total": 23,
+          "updated": "2026-06-03",
+          "assignee": "Smrithi Ravindranath",
+          "issueType": "Test Plan"
+        },
+        {
+          "id": "RIGHTS-28328",
+          "milestoneId": "milestone2",
+          "name": "RMS-MD-Unified Acquisition Release 5.0.0 \"26-MM-DD \"",
+          "shortName": "RMS-MD-Unified Acquisition Release 5.0.0 \"26-MM-DD \"",
+          "url": "https://jira.disney.com/browse/RIGHTS-28328",
+          "jiraStatus": "In Progress",
+          "status": "in-progress",
+          "executionStatus": "in-progress",
+          "coverage": 21,
+          "pass": 22,
+          "fail": 0,
+          "blocked": 0,
+          "inProgress": 0,
+          "pending": 84,
+          "total": 106,
+          "updated": "2026-06-03",
+          "assignee": "Anush Kadam",
+          "issueType": "Test Plan"
+        }
+      ]
+    },
+    {
+      "id": "amp",
+      "name": "AMP",
+      "subtitle": "AMP test plan \u2014 order, SIP delivery, unified acquisition ingest",
+      "workflowZoneIds": [
+        "amp-path"
+      ],
+      "testPlan": {
+        "id": "OMFG-19970",
+        "milestoneId": "amp",
+        "name": "AMP - 1st Party Acquisition",
+        "shortName": "1st Party Acquisition",
+        "url": "https://jira.disney.com/browse/OMFG-19970",
+        "jiraStatus": "In Progress",
+        "status": "in-progress",
+        "executionStatus": "in-progress",
+        "coverage": 50,
+        "pass": 3,
+        "fail": 0,
+        "blocked": 0,
+        "inProgress": 0,
+        "pending": 3,
+        "total": 6,
+        "updated": "2026-06-03",
+        "assignee": "Pooja Bullapura Channabasappa",
+        "issueType": "Test Plan"
+      },
+      "linkedTestPlans": []
+    }
+  ],
+  "relatedTestPlans": [],
+  "programRollup": {
+    "status": "in-progress",
+    "coverage": 21,
+    "pass": 93,
+    "fail": 0,
+    "pending": 351,
+    "total": 444,
+    "milestonesComplete": 0,
+    "milestoneTotal": 6,
+    "planCount": 6,
+    "plansComplete": 0
+  },
+  "consolidatedWorkflow": {
+    "title": "End-to-end acquisition (architecture + implementation)",
+    "zones": [
+      {
+        "id": "partner",
+        "name": "Partner & Rights",
+        "order": 1
+      },
+      {
+        "id": "avail",
+        "name": "Avail pipeline",
+        "order": 2
+      },
+      {
+        "id": "storage-in",
+        "name": "Storage & ingest",
+        "order": 3
+      },
+      {
+        "id": "amp-path",
+        "name": "AMP delivery",
+        "order": 4
+      },
+      {
+        "id": "av-delivery",
+        "name": "AV delivery",
+        "order": 5
+      },
+      {
+        "id": "dtc-out",
+        "name": "DTC delivery",
+        "order": 6
+      }
+    ],
+    "nodes": [
+      {
+        "id": "cpm",
+        "zone": "partner",
+        "order": 1,
+        "name": "CPM",
+        "systems": [
+          "CPM"
+        ],
+        "summary": "Create CP ID, CP User Name, and External Identifier in CPD"
+      },
+      {
+        "id": "rightsline",
+        "zone": "partner",
+        "order": 2,
+        "name": "Rightsline",
+        "systems": [
+          "Rightsline"
+        ],
+        "summary": "Consume CP External ID; create Distribution Rights Out (Hulu, D+, ESPN+)"
+      },
+      {
+        "id": "falcon-avail",
+        "zone": "avail",
+        "order": 3,
+        "name": "Falcon",
+        "systems": [
+          "Falcon"
+        ],
+        "summary": "Publish EMA Avail to S3; invoke DTC Acquisition API with CP User Name"
+      },
+      {
+        "id": "avails-object",
+        "zone": "avail",
+        "order": 4,
+        "name": "Avails",
+        "systems": [
+          "Hulu",
+          "D+",
+          "ESPN+ Avail"
+        ],
+        "summary": "Platform avail objects produced from rights & avails source"
+      },
+      {
+        "id": "s3-avail",
+        "zone": "storage-in",
+        "order": 5,
+        "name": "S3 (Avails)",
+        "systems": [
+          "Storage"
+        ],
+        "summary": "Avail packages land in DTC S3 bucket"
+      },
+      {
+        "id": "dtc-ua-avail",
+        "zone": "storage-in",
+        "order": 6,
+        "name": "Unified Acquisition",
+        "systems": [
+          "DTC UA"
+        ],
+        "summary": "Ingest EMA Avail; hand off to catalog for CP User Name \u2192 Content ID / ALID mapping"
+      },
+      {
+        "id": "dtc-catalog-avail",
+        "zone": "storage-in",
+        "order": 7,
+        "name": "DTC Catalog",
+        "systems": [
+          "Catalog"
+        ],
+        "summary": "Map identifiers; publish acquisition status back to Falcon"
+      },
+      {
+        "id": "falcon-status",
+        "zone": "avail",
+        "order": 8,
+        "name": "Falcon status",
+        "systems": [
+          "Falcon"
+        ],
+        "summary": "Update avail status after acquisition loop"
+      },
+      {
+        "id": "amp-order",
+        "zone": "amp-path",
+        "order": 9,
+        "name": "AMP",
+        "systems": [
+          "AMP"
+        ],
+        "summary": "Order, confirm, and release AMP"
+      },
+      {
+        "id": "sip-amp",
+        "zone": "amp-path",
+        "order": 10,
+        "name": "SIP \u2192 S3",
+        "systems": [
+          "SIP"
+        ],
+        "summary": "Deliver AMP to DTC S3; invoke acquisition API per delivery"
+      },
+      {
+        "id": "dtc-ua-amp",
+        "zone": "amp-path",
+        "order": 11,
+        "name": "UA ingest AMP",
+        "systems": [
+          "DTC UA",
+          "Catalog"
+        ],
+        "summary": "Ingest AMP; map Content ID to CP User Name"
+      },
+      {
+        "id": "sip-av-order",
+        "zone": "av-delivery",
+        "order": 12,
+        "name": "SIP AV",
+        "systems": [
+          "SIP",
+          "AV"
+        ],
+        "summary": "Mastering/localization; distribute AV components by ALID"
+      },
+      {
+        "id": "sip-av-deliver",
+        "zone": "av-delivery",
+        "order": 13,
+        "name": "AV \u2192 S3",
+        "systems": [
+          "SIP"
+        ],
+        "summary": "Deliver AV package to DTC S3; acquisition API per delivery"
+      },
+      {
+        "id": "dtc-ua-av",
+        "zone": "av-delivery",
+        "order": 14,
+        "name": "UA ingest AV",
+        "systems": [
+          "DTC UA"
+        ],
+        "summary": "Ingest AV for processing"
+      },
+      {
+        "id": "catalog-final",
+        "zone": "av-delivery",
+        "order": 15,
+        "name": "Catalog finalize",
+        "systems": [
+          "Catalog"
+        ],
+        "summary": "Add CP ID from ALID \u2192 CP User Name mapping"
+      },
+      {
+        "id": "content-portal",
+        "zone": "dtc-out",
+        "order": 16,
+        "name": "Content Portal",
+        "systems": [
+          "CPM Portal"
+        ],
+        "summary": "Content Portal / CPM handoff (CP User Name feedback to rights)"
+      },
+      {
+        "id": "dtc-platforms",
+        "zone": "dtc-out",
+        "order": 17,
+        "name": "DTC",
+        "systems": [
+          "Disney+",
+          "ESPN+",
+          "Hulu"
+        ],
+        "summary": "Client-ready content on DTC platforms"
+      }
+    ],
+    "feeds": [
+      {
+        "from": "rightsline",
+        "to": "falcon-avail",
+        "label": "DRO"
+      },
+      {
+        "from": "falcon-avail",
+        "to": "avails-object",
+        "to2": "s3-avail",
+        "label": "EMA"
+      },
+      {
+        "from": "s3-avail",
+        "to": "dtc-ua-avail"
+      },
+      {
+        "from": "dtc-ua-avail",
+        "to": "dtc-catalog-avail"
+      },
+      {
+        "from": "dtc-catalog-avail",
+        "to": "falcon-status",
+        "label": "status",
+        "dashed": true
+      },
+      {
+        "from": "amp-order",
+        "to": "sip-amp"
+      },
+      {
+        "from": "sip-amp",
+        "to": "dtc-ua-amp"
+      },
+      {
+        "from": "sip-av-order",
+        "to": "sip-av-deliver"
+      },
+      {
+        "from": "sip-av-deliver",
+        "to": "dtc-ua-av"
+      },
+      {
+        "from": "dtc-ua-av",
+        "to": "catalog-final"
+      },
+      {
+        "from": "catalog-final",
+        "to": "content-portal"
+      },
+      {
+        "from": "content-portal",
+        "to": "dtc-platforms"
+      }
+    ],
+    "milestoneByZone": {
+      "partner": "milestone1",
+      "avail": "milestone1",
+      "storage-in": "milestone1",
+      "amp-path": "amp",
+      "av-delivery": "milestone2",
+      "dtc-out": "milestone2"
+    }
+  },
+  "statusLabels": {
+    "completed": {
+      "label": "Complete",
+      "class": "status-completed"
+    },
+    "in-progress": {
+      "label": "In Progress",
+      "class": "status-progress"
+    },
+    "pending": {
+      "label": "Not Started",
+      "class": "status-pending"
+    },
+    "blocked": {
+      "label": "Blocked",
+      "class": "status-blocked"
+    },
+    "fail": {
+      "label": "Failed",
+      "class": "status-fail"
+    }
+  },
   "jira": {
     "baseUrl": "https://jira.disney.com",
     "browsePath": "/browse/",
     "epicKey": "CPTR-72227",
-    "lastSynced": null,
-    "syncSource": "scripts/sync-from-jira.py",
-    "syncRequired": true,
-    "dataVersion": "20260603160000"
-  },
-  "statusLabels": {
-    "completed": { "label": "Complete", "class": "status-completed" },
-    "in-progress": { "label": "In Progress", "class": "status-progress" },
-    "pending": { "label": "Not Started", "class": "status-pending" },
-    "blocked": { "label": "Blocked", "class": "status-blocked" },
-    "at-risk": { "label": "At Risk", "class": "status-risk" }
-  },
-  "phases": [
-    { "id": "partner-setup", "name": "Partner & CPM Setup", "order": 1, "summary": "CP ID, CP User Name, and external identifier creation in CPM", "systems": ["cpm"] },
-    { "id": "rights", "name": "Rights & Distribution Rights", "order": 2, "summary": "Rightsline consumes CP external ID and creates distribution rights out", "systems": ["rightsline"] },
-    { "id": "avail-pipeline", "name": "EMA Avail Pipeline", "order": 3, "summary": "Falcon publishes avails to S3; DTC Unified Acquisition ingests and maps to catalog", "systems": ["falcon", "dtc-ua", "dtc-catalog"] },
-    { "id": "amp-pipeline", "name": "AMP Delivery", "order": 4, "summary": "AMP ordering, SIP delivery to DTC S3, acquisition ingest and CP mapping", "systems": ["amp", "sip", "dtc-ua", "dtc-catalog"] },
-    { "id": "av-pipeline", "name": "AV Delivery & Finalization", "order": 5, "summary": "AV mastering/localization via SIP; final CP ID assignment in catalog", "systems": ["sip", "dtc-ua", "dtc-catalog", "content-portal"] },
-    { "id": "dtc-delivery", "name": "DTC Platform Delivery", "order": 6, "summary": "Content Portal / CPM handoff to Disney+, ESPN+, and Hulu", "systems": ["content-portal", "dtc"] }
-  ],
-  "systems": [
-    { "id": "cpm", "name": "Content Partner Manager", "short": "CPM", "phase": "partner-setup" },
-    { "id": "rightsline", "name": "Rightsline", "short": "Rights & Avails", "phase": "rights" },
-    { "id": "falcon", "name": "Falcon", "short": "Distribution Ops Avails", "phase": "avail-pipeline" },
-    { "id": "dtc-ua", "name": "DTC Unified Acquisition", "short": "Unified Acquisition", "phase": "avail-pipeline" },
-    { "id": "dtc-catalog", "name": "DTC Catalog", "short": "Catalog mapping", "phase": "avail-pipeline" },
-    { "id": "amp", "name": "AMP", "short": "Distribution Ops AMP", "phase": "amp-pipeline" },
-    { "id": "sip", "name": "SIP", "short": "Distribution Ops AV/AMP", "phase": "amp-pipeline" },
-    { "id": "content-portal", "name": "Content Portal", "short": "CPM portal", "phase": "dtc-delivery" },
-    { "id": "dtc", "name": "DTC Platforms", "short": "Disney+ · ESPN+ · Hulu", "phase": "dtc-delivery" }
-  ],
-  "architectureNodes": [
-    { "id": "rightsline", "lane": "sources", "name": "Rightsline", "group": "Rights & Avails" },
-    { "id": "falcon-src", "lane": "sources", "name": "Falcon", "group": "Rights & Avails" },
-    { "id": "amp-src", "lane": "sources", "name": "AMP", "group": "Assets & Media" },
-    { "id": "av-src", "lane": "sources", "name": "AV", "group": "Assets & Media" },
-    { "id": "sip-src", "lane": "sources", "name": "SIP", "group": "Assets & Media" },
-    { "id": "avails", "lane": "objects", "name": "Avails", "group": "Hulu · D+ · ESPN+ Avail" },
-    { "id": "content", "lane": "objects", "name": "Content", "group": "AMP & AV packages" },
-    { "id": "s3-avails", "lane": "storage", "name": "S3 (Avails)", "group": "Storage" },
-    { "id": "s3-content", "lane": "storage", "name": "S3 (Content)", "group": "Storage" },
-    { "id": "unified-acquisition", "lane": "dtc", "name": "Unified Acquisition", "group": "Direct To Consumer" },
-    { "id": "content-portal-arch", "lane": "dtc", "name": "Content Portal / CPM", "group": "Direct To Consumer" },
-    { "id": "dtc-platforms", "lane": "dtc", "name": "DTC", "group": "Disney+ · ESPN+ · Hulu" }
-  ],
-  "architectureEdges": [
-    ["rightsline", "falcon-src"], ["falcon-src", "avails"], ["avails", "s3-avails"],
-    ["amp-src", "sip-src"], ["av-src", "sip-src"], ["sip-src", "content"], ["content", "s3-content"],
-    ["s3-avails", "unified-acquisition"], ["s3-content", "unified-acquisition"],
-    ["unified-acquisition", "content-portal-arch"], ["content-portal-arch", "dtc-platforms"]
-  ],
-  "workflowSteps": [
-    { "id": "ws-01", "phase": "partner-setup", "system": "cpm", "order": 1, "name": "Create CP ID & CP User Name", "summary": "CPM system creates CP ID with CP User Name" },
-    { "id": "ws-02", "phase": "partner-setup", "system": "cpm", "order": 2, "name": "CPM team creates CP in CPD", "summary": "New CP in CPM generates CP ID and External Identifier" },
-    { "id": "ws-03", "phase": "rights", "system": "rightsline", "order": 3, "name": "Consume CP External ID", "summary": "Rightsline ingests external identifier (auto or manual)" },
-    { "id": "ws-04", "phase": "rights", "system": "rightsline", "order": 4, "name": "Create Distribution Rights Out", "summary": "Rights out for Hulu, Disney+, or ESPN+" },
-    { "id": "ws-05", "phase": "avail-pipeline", "system": "falcon", "order": 5, "name": "Publish EMA Avail to S3", "summary": "Falcon creates and publishes EMA Avail to existing S3 bucket" },
-    { "id": "ws-06", "phase": "avail-pipeline", "system": "falcon", "order": 6, "name": "Send avail payload to DTC Acquisition", "summary": "S3 key, avail location, and CP User Name to DTC UA API" },
-    { "id": "ws-07", "phase": "avail-pipeline", "system": "dtc-ua", "order": 7, "name": "Ingest EMA Avail", "summary": "DTC Unified Acquisition ingests avail and hands off to catalog" },
-    { "id": "ws-08", "phase": "avail-pipeline", "system": "dtc-catalog", "order": 8, "name": "Map CP User Name in EMA", "summary": "Catalog maps CP User Name to Content ID and ALID" },
-    { "id": "ws-09", "phase": "avail-pipeline", "system": "dtc-ua", "order": 9, "name": "Publish acquisition status", "summary": "Status published back to Falcon" },
-    { "id": "ws-10", "phase": "avail-pipeline", "system": "falcon", "order": 10, "name": "Update Avail Status", "summary": "Falcon reflects acquisition completion on avail" },
-    { "id": "ws-11", "phase": "amp-pipeline", "system": "amp", "order": 11, "name": "Order & release AMP", "summary": "AMP Ops orders, confirms, and releases AMP" },
-    { "id": "ws-12", "phase": "amp-pipeline", "system": "sip", "order": 12, "name": "Deliver AMP to DTC S3", "summary": "SIP delivers AMP package to DTC S3 bucket" },
-    { "id": "ws-13", "phase": "amp-pipeline", "system": "sip", "order": 13, "name": "Send AMP payload to DTC Acquisition", "summary": "S3 key and AMP MMC location to DTC UA API" },
-    { "id": "ws-14", "phase": "amp-pipeline", "system": "dtc-ua", "order": 14, "name": "Ingest AMP", "summary": "Unified Acquisition ingests AMP; catalog maps Content ID to CP User Name" },
-    { "id": "ws-15", "phase": "av-pipeline", "system": "sip", "order": 15, "name": "Order & distribute AV", "summary": "Mastering/localization orders AV components using ALID" },
-    { "id": "ws-16", "phase": "av-pipeline", "system": "sip", "order": 16, "name": "Deliver AV to DTC S3", "summary": "SIP delivers AV package to DTC S3" },
-    { "id": "ws-17", "phase": "av-pipeline", "system": "sip", "order": 17, "name": "Send AV payload to DTC Acquisition", "summary": "S3 key and AV MMC location to DTC UA API" },
-    { "id": "ws-18", "phase": "av-pipeline", "system": "dtc-ua", "order": 18, "name": "Ingest AV", "summary": "Unified Acquisition ingests AV for processing" },
-    { "id": "ws-19", "phase": "av-pipeline", "system": "dtc-catalog", "order": 19, "name": "Add CP ID from ALID mapping", "summary": "Catalog adds CP ID based on ALID → CP User Name mapping" },
-    { "id": "ws-20", "phase": "dtc-delivery", "system": "dtc", "order": 20, "name": "Surface on DTC platforms", "summary": "Content available on Disney+, ESPN+, and Hulu via Content Portal" }
-  ],
-  "epicIssue": {
-    "key": "CPTR-72227",
-    "summary": "1st Party Unification Acquisition",
-    "url": "https://jira.disney.com/browse/CPTR-72227",
-    "jiraStatus": "Unknown",
-    "status": "pending",
-    "assignee": null,
-    "updated": null
-  },
-  "workItems": [],
-  "brief": {
-    "vision": "Unify first-party content acquisition across Hulu, Disney+, and ESPN+ through a single DTC Unified Acquisition pipeline fed by Rightsline, Falcon, SIP, and AMP.",
-    "scope": [
-      "End-to-end partner onboarding (CPM → Rightsline)",
-      "EMA Avail ingestion and catalog mapping",
-      "AMP and AV delivery via SIP to DTC S3",
-      "Unified Acquisition API orchestration per avail and per delivery",
-      "Final delivery to DTC platforms via Content Portal"
+    "lastSynced": "2026-06-03T12:35:57Z",
+    "syncRequired": false,
+    "syncTestPlans": [
+      "DMEDNINJA-17790",
+      "DMEDNINJA-17818",
+      "OMFG-19970"
     ],
-    "keyIdentifiers": ["CP ID", "CP User Name", "External Identifier", "ALID", "Content ID", "S3 Key"],
-    "risks": [
-      "Cross-system identifier mapping (CP User Name ↔ ALID ↔ Content ID)",
-      "Falcon ↔ DTC acquisition status loop timing",
-      "Parallel AMP and AV delivery dependencies on avail readiness"
-    ],
-    "references": [
-      { "label": "Epic CPTR-72227", "url": "https://jira.disney.com/browse/CPTR-72227" },
-      { "label": "Architecture diagram", "path": "assets/architecture-reference.png" },
-      { "label": "Swimlane workflow", "path": "assets/swimlane-reference.png" }
-    ]
+    "dataVersion": "20260603123557",
+    "syncSource": "scripts/sync-from-jira.py"
   }
 };

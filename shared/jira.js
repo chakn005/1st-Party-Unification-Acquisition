@@ -12,7 +12,7 @@ function jiraLink(issueKey, label, className) {
 
 function formatSyncTime() {
   const ts = ACQUISITION_DATA?.jira?.lastSynced;
-  if (!ts) return "Not synced from Jira yet";
+  if (!ts) return "Not synced";
   try {
     return new Date(ts).toLocaleString();
   } catch {
@@ -21,9 +21,10 @@ function formatSyncTime() {
 }
 
 function renderJiraMetaFooter() {
-  const epic = ACQUISITION_DATA.epicIssue?.key || ACQUISITION_DATA.epic;
-  const items = ACQUISITION_DATA.workItems?.length
-    ? `${ACQUISITION_DATA.workItems.length} work items`
-    : "Run sync to load epic children";
-  return `<div class="jira-meta-footer">Jira synced: ${escapeHtml(formatSyncTime())} · Epic ${jiraLink(epic, epic)} · ${escapeHtml(items)}</div>`;
+  const plans = (ACQUISITION_DATA.milestones || [])
+    .map((m) => m.testPlan?.id)
+    .filter(Boolean)
+    .map((id) => jiraLink(id, id))
+    .join(" · ");
+  return `Jira synced: ${escapeHtml(formatSyncTime())} · Epic ${jiraLink(ACQUISITION_DATA.epic?.key || "CPTR-72227")} · ${plans}`;
 }

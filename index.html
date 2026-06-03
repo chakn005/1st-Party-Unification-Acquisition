@@ -3,90 +3,70 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>1st Party Unification Acquisition — Leadership Console</title>
-  <link rel="stylesheet" href="shared/theme.css">
-  <link rel="stylesheet" href="shared/layout.css">
+  <title>1st Party Unification Acquisition</title>
+  <link rel="stylesheet" href="shared/disney-theme.css">
+  <link rel="stylesheet" href="shared/console.css">
+  <link rel="stylesheet" href="shared/workflow-diagram.css">
 </head>
 <body>
-  <header class="app-header">
-    <h1>1st Party Unification Acquisition</h1>
-    <div class="meta" id="header-meta">Loading…</div>
+  <header class="disney-header">
+    <div class="disney-header-inner">
+      <div class="disney-header-brand">
+        <h1>1st Party Unification Acquisition</h1>
+        <span class="sub">QA Coverage &amp; Traceability</span>
+      </div>
+      <div class="disney-header-meta">
+        <span class="disney-header-env">Env: Staging</span>
+        <span class="disney-header-epic">Epic <a class="jira-epic-link" href="https://jira.disney.com/browse/CPTR-72227" target="_blank" rel="noopener">CPTR-72227</a></span>
+      </div>
+    </div>
   </header>
 
-  <nav class="app-tabs" id="tabs">
-    <button class="active" data-tab="dashboard">Executive Dashboard</button>
-    <button data-tab="hierarchy">Status Hierarchy</button>
-    <button data-tab="architecture">Architecture</button>
-    <button data-tab="swimlane">Implementation Flow</button>
-    <button data-tab="brief">Program Brief</button>
+  <nav class="disney-tabs" id="tabs">
+    <button type="button" class="active" data-tab="milestone1">Milestone 1</button>
+    <button type="button" data-tab="milestone2">Milestone 2</button>
+    <button type="button" data-tab="pipeline">E2E Acquisition Pipeline</button>
+    <button type="button" data-tab="evidence">QA Evidence &amp; Traceability</button>
   </nav>
 
-  <main class="app-main" id="app">
-    <div id="sync-banner" class="sync-banner" style="display:none"></div>
+  <main class="disney-main" id="app">
+    <div id="sync-note" class="sync-note"></div>
 
-    <section class="panel active" data-panel="dashboard">
-      <div class="level-section">
-        <h2>Level 0 — Program</h2>
-        <p class="level-sub">Roll-up across all implementation phases · Epic <a href="https://jira.disney.com/browse/CPTR-72227" class="jira-link" target="_blank" rel="noopener">CPTR-72227</a></p>
-        <div id="exec-kpis"></div>
-      </div>
-      <div class="level-section">
-        <h2>Level 1 — Phases</h2>
-        <p class="level-sub">Six delivery phases aligned to the acquisition swimlane</p>
-        <div class="phase-grid" id="phase-grid"></div>
-        <div class="detail-drawer" id="phase-detail"></div>
-      </div>
-      <div id="system-status"></div>
+    <section class="panel active" data-panel="milestone1">
+      <div class="kpi-row" id="milestone1-kpis"></div>
+      <div id="milestone1-panel"></div>
     </section>
 
-    <section class="panel" data-panel="hierarchy">
-      <div class="level-section">
-        <h2>Multi-level status view</h2>
-        <p class="level-sub">Program → Epic → Phase → System → Jira work items — for leadership tracking</p>
-        <div class="hierarchy-tree" id="hierarchy-table"></div>
-      </div>
+    <section class="panel" data-panel="milestone2">
+      <div class="kpi-row" id="milestone2-kpis"></div>
+      <div id="milestone2-panel"></div>
     </section>
 
-    <section class="panel" data-panel="architecture">
-      <div class="level-section">
-        <h2>Target architecture</h2>
-        <p class="level-sub">Rights &amp; avails and assets/media through S3 into Unified Acquisition and DTC platforms</p>
-        <div id="arch-pipeline"></div>
-        <div class="detail-drawer" id="arch-detail"></div>
-      </div>
+    <section class="panel" data-panel="pipeline">
+      <div id="workflow-diagram-root" class="wf-diagram-panel"></div>
     </section>
 
-    <section class="panel" data-panel="swimlane">
-      <div class="level-section">
-        <h2>Implementation swimlane</h2>
-        <p class="level-sub">20 workflow steps across CPM, Rightsline, Falcon, DTC UA, Catalog, SIP, and AMP</p>
-        <div class="swimlane-wrap" id="swimlane-board"></div>
-        <div class="detail-drawer" id="swimlane-detail"></div>
-      </div>
+    <section class="panel" data-panel="evidence">
+      <h2 class="section-title">QA Evidence &amp; Traceability</h2>
+      <div id="evidences-panel"></div>
     </section>
 
-    <section class="panel" data-panel="brief">
-      <div id="brief-panel"></div>
-    </section>
-
-    <div id="jira-footer"></div>
+    <footer class="footer-meta" id="jira-footer"></footer>
   </main>
 
-  <script src="shared/data.js?v=20260603160000"></script>
-  <script src="shared/utils.js?v=20260603160000"></script>
-  <script src="shared/jira.js?v=20260603160000"></script>
-  <script src="shared/rollup.js?v=20260603160000"></script>
-  <script src="shared/dashboard.js?v=20260603160000"></script>
-  <script src="shared/architecture.js?v=20260603160000"></script>
-  <script src="shared/swimlane.js?v=20260603160000"></script>
-  <script src="shared/hierarchy.js?v=20260603160000"></script>
+  <script src="shared/data.js"></script>
+  <script src="shared/utils.js"></script>
+  <script src="shared/jira.js"></script>
+  <script src="shared/milestones.js"></script>
+  <script src="shared/workflow-diagram.js"></script>
+  <script src="shared/evidences.js"></script>
   <script>
-    initTabs(document.getElementById("app"));
-    initDashboard();
-    renderArchitecture();
-    renderSwimlane();
-    renderHierarchy();
-    renderBrief();
+    initTabs();
+    renderSyncNote();
+    renderMilestoneTab("milestone1", "milestone1-panel", "milestone1-kpis");
+    renderMilestone2Tab();
+    renderWorkflowDiagram();
+    renderEvidencesTab();
     document.getElementById("jira-footer").innerHTML = renderJiraMetaFooter();
   </script>
 </body>

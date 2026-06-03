@@ -1,0 +1,441 @@
+/* 1st Party Unification — E2E workflow diagram (from unified.docx) */
+
+.wf-diagram-panel {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.wf-ua-exec {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.wf-ua-hero {
+  padding: 1.35rem 1.5rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--disney-blue) 0%, #123d8f 50%, var(--disney-blue-mid) 100%);
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(10, 42, 102, 0.15);
+}
+
+.wf-ua-hero h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.wf-ua-hero p {
+  margin: 0;
+  font-size: 0.88rem;
+  opacity: 0.92;
+  line-height: 1.5;
+  max-width: 72ch;
+}
+
+.wf-ua-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--disney-muted);
+  margin-bottom: 0.5rem;
+}
+
+.wf-ua-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.wf-legend-solid::before {
+  content: "";
+  width: 24px;
+  height: 2px;
+  background: var(--disney-blue-mid);
+}
+
+.wf-legend-api::before {
+  content: "";
+  width: 24px;
+  height: 0;
+  border-top: 2px dashed var(--disney-red);
+}
+
+/* Architecture diagram (docx image 1) */
+.wf-arch-board {
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 12px;
+  padding: 1.25rem 1rem 1.5rem;
+  overflow-x: auto;
+}
+
+.wf-arch-grid {
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) 22px minmax(108px, 0.9fr) 22px 76px 28px minmax(188px, 220px);
+  grid-template-rows: auto auto;
+  gap: 0.75rem 0.2rem;
+  align-items: center;
+  min-width: 900px;
+}
+
+.wf-arch-g-r1c1 { grid-column: 1; grid-row: 1; }
+.wf-arch-g-r1c2 { grid-column: 2; grid-row: 1; }
+.wf-arch-g-r1c3 { grid-column: 3; grid-row: 1; }
+.wf-arch-g-r1c4 { grid-column: 4; grid-row: 1; }
+.wf-arch-g-r1c5 { grid-column: 5; grid-row: 1; }
+.wf-arch-g-r1c6 { grid-column: 6; grid-row: 1; }
+.wf-arch-g-r2c1 { grid-column: 1; grid-row: 2; }
+.wf-arch-g-r2c2 { grid-column: 2; grid-row: 2; }
+.wf-arch-g-r2c3 { grid-column: 3; grid-row: 2; }
+.wf-arch-g-r2c4 { grid-column: 4; grid-row: 2; }
+.wf-arch-g-r2c5 { grid-column: 5; grid-row: 2; }
+.wf-arch-g-r2c6 { grid-column: 6; grid-row: 2; }
+
+.wf-arch-arrow-into-dtc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.wf-arch-arrow-into-dtc .wf-arch-arrow {
+  font-size: 1.15rem;
+}
+
+.wf-arch-dtc-column {
+  grid-column: 7;
+  grid-row: 1 / span 2;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  min-height: 248px;
+  padding: 0.75rem 0.85rem 2rem;
+}
+
+.wf-arch-dtc-chain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.wf-arch-g-r1c6,
+.wf-arch-g-r2c6 {
+  align-self: center;
+}
+
+.wf-dtc-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.wf-arch-node-ua {
+  margin-top: 0.15rem;
+}
+
+.wf-arch-dtc-spacer {
+  flex: 1;
+  min-height: 1.25rem;
+}
+
+.wf-arch-group {
+  border: 2px solid var(--disney-border);
+  border-radius: 10px;
+  padding: 0.65rem 0.55rem;
+  background: #fafbfc;
+  text-align: center;
+}
+
+.wf-arch-group h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--disney-blue);
+}
+
+.wf-arch-node {
+  display: inline-block;
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 6px;
+  padding: 0.35rem 0.5rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--disney-blue);
+  cursor: pointer;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+
+.wf-arch-node:hover,
+.wf-arch-node.selected {
+  border-color: var(--disney-blue-mid);
+  box-shadow: 0 3px 10px rgba(10, 42, 102, 0.12);
+}
+
+.wf-arch-chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.wf-arch-arrow {
+  color: var(--disney-blue-mid);
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.wf-arch-object {
+  border: 2px dashed var(--disney-border);
+  border-radius: 10px;
+  padding: 0.55rem;
+  text-align: center;
+  min-height: 72px;
+}
+
+.wf-arch-object h4 {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  color: var(--disney-blue);
+}
+
+.wf-arch-tags {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.65rem;
+  color: var(--disney-muted);
+}
+
+.wf-arch-storage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.wf-s3-icon {
+  width: 56px;
+  padding: 0.4rem;
+  background: linear-gradient(180deg, #e8f0fa, #dbeafe);
+  border: 1px solid var(--disney-blue-mid);
+  border-radius: 6px 6px 10px 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--disney-blue);
+  text-align: center;
+}
+
+.wf-arch-dtc {
+  border: 3px solid var(--disney-blue);
+  border-radius: 12px;
+  background: var(--disney-blue-soft);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.wf-arch-dtc h4 {
+  margin: 0 0 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--disney-blue);
+  font-weight: 700;
+}
+
+
+.wf-arch-platforms {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--disney-blue);
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--disney-border);
+  border-radius: 6px;
+  background: #fff;
+}
+
+.wf-api-layer {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px dashed var(--disney-border);
+}
+
+.wf-api-layer h5 {
+  margin: 0 0 0.5rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--disney-red);
+  letter-spacing: 0.04em;
+}
+
+.wf-api-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.wf-api-item {
+  font-size: 0.75rem;
+  color: var(--disney-text);
+  padding-left: 1rem;
+  position: relative;
+}
+
+.wf-api-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.45em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--disney-red);
+  opacity: 0.7;
+}
+
+/* Swimlane diagram (docx image 2) */
+.wf-swim-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--disney-blue);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.wf-swim-board {
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+.wf-swim-table {
+  min-width: 1100px;
+  width: 100%;
+}
+
+.wf-swim-lane {
+  display: grid;
+  grid-template-columns: 168px 1fr;
+  border-bottom: 1px solid var(--disney-border);
+  min-height: 64px;
+}
+
+.wf-swim-lane:last-child { border-bottom: none; }
+
+.wf-swim-lane-label {
+  padding: 0.55rem 0.65rem;
+  background: var(--disney-blue-soft);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--disney-blue);
+  border-right: 1px solid var(--disney-border);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.wf-swim-lane-icon {
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.wf-swim-track {
+  display: flex;
+  align-items: stretch;
+  gap: 0.35rem;
+  padding: 0.45rem 0.5rem;
+  overflow-x: auto;
+}
+
+.wf-swim-step {
+  flex: 0 0 200px;
+  background: #f8fafc;
+  border: 1px solid var(--disney-border);
+  border-radius: 8px;
+  padding: 0.5rem 0.45rem;
+  font-size: 0.68rem;
+  line-height: 1.35;
+  cursor: default;
+  pointer-events: none;
+  position: relative;
+}
+
+.wf-swim-step-num {
+  font-size: 0.6rem;
+  font-weight: 800;
+  color: var(--disney-blue-mid);
+  margin-bottom: 0.15rem;
+}
+
+.wf-swim-step::after {
+  content: "→";
+  position: absolute;
+  right: -0.42rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--disney-muted);
+  font-size: 0.85rem;
+  z-index: 1;
+}
+
+.wf-swim-track .wf-swim-step:last-child::after {
+  display: none;
+}
+
+.wf-swim-phase {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--disney-muted);
+  padding: 0.35rem 0.5rem;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+.wf-detail-panel {
+  background: var(--disney-blue-soft);
+  border: 1px solid var(--disney-border);
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-top: 1rem;
+  min-height: 72px;
+}
+
+.wf-detail-panel h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  color: var(--disney-blue);
+}
+
+.wf-detail-panel p {
+  margin: 0.35rem 0;
+  font-size: 0.85rem;
+  color: var(--disney-muted);
+  line-height: 1.5;
+}
+
+.wf-detail-milestone {
+  margin-top: 0.65rem;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+  .wf-arch-canvas {
+    min-width: 720px;
+    grid-template-columns: 130px 130px 80px 110px 1fr;
+  }
+  .wf-swim-step { flex: 0 0 170px; }
+}

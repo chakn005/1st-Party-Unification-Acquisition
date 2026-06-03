@@ -95,10 +95,10 @@ function renderBrief() {
       <div class="brief-card"><h3>Key identifiers</h3><p>${(b.keyIdentifiers || []).map((k) => `<code style="margin-right:0.35rem">${escapeHtml(k)}</code>`).join("")}</p></div>
       <div class="brief-card"><h3>Risks</h3><ul>${(b.risks || []).map((r) => `<li>${escapeHtml(r)}</li>`).join("")}</ul></div>
       <div class="brief-card"><h3>Reference diagrams</h3>
-        <p><a href="assets/architecture-reference.png" target="_blank" rel="noopener">Architecture (source → DTC)</a></p>
-        <img class="ref-diagram" src="assets/architecture-reference.png" alt="1st Party Unification architecture diagram" loading="lazy">
-        <p style="margin-top:1rem"><a href="assets/swimlane-reference.png" target="_blank" rel="noopener">Implementation swimlane</a></p>
-        <img class="ref-diagram" src="assets/swimlane-reference.png" alt="Implementation swimlane workflow" loading="lazy">
+        <p><a href="${acqPrefix()}assets/architecture-reference.png" target="_blank" rel="noopener">Architecture (source → DTC)</a></p>
+        <img class="ref-diagram" src="${acqPrefix()}assets/architecture-reference.png" alt="1st Party Unification architecture diagram" loading="lazy">
+        <p style="margin-top:1rem"><a href="${acqPrefix()}assets/swimlane-reference.png" target="_blank" rel="noopener">Implementation swimlane</a></p>
+        <img class="ref-diagram" src="${acqPrefix()}assets/swimlane-reference.png" alt="Implementation swimlane workflow" loading="lazy">
       </div>
     </div>`;
 }

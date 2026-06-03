@@ -1,47 +1,33 @@
-# 1st Party Unification Acquisition — Leadership Console
+# 1st Party Unification Acquisition Console
 
-Executive dashboard for tracking **1st Party Unification Acquisition** implementation progress, structured from epic [CPTR-72227](https://jira.disney.com/browse/CPTR-72227) and the architecture / swimlane diagrams in this repo.
+Leadership view of **epic [CPTR-72227](https://jira.disney.com/browse/CPTR-72227)** with QA status segregated by:
 
-Inspired by the [Delta Gemini QA Console](https://chakn005.github.io/DeltaGemini/) pattern, but focused on **implementation status roll-up** (not QA test matrices).
+| Milestone | Test plan | Focus |
+|-----------|-----------|--------|
+| **Milestone 1** | [DMEDNINJA-17790](https://jira.disney.com/browse/DMEDNINJA-17790) | SIP — partner, rights, avail, S3 ingest |
+| **Milestone 2** | [DMEDNINJA-17818](https://jira.disney.com/browse/DMEDNINJA-17818) | SIP — AV delivery, catalog, DTC |
+| **AMP** | [OMFG-19970](https://jira.disney.com/browse/OMFG-19970) | AMP order & SIP delivery to unified acquisition |
 
-## What leadership sees
-
-| Level | View |
-|-------|------|
-| **Program** | Overall % complete, phase count, Jira items done |
-| **Epic** | CPTR-72227 status from Jira |
-| **Phases** | 6 delivery phases (CPM → Rights → Avail → AMP → AV → DTC) |
-| **Systems** | CPM, Rightsline, Falcon, DTC UA, Catalog, SIP, AMP, Content Portal, DTC |
-| **Work items** | Stories/tasks under the epic (after Jira sync) |
-
-Tabs: **Executive Dashboard**, **Status Hierarchy**, **Architecture**, **Implementation Flow**, **Program Brief** (reference diagrams included).
+**Tabs:** **Milestone 1** · **Milestone 2** · **E2E Acquisition Pipeline** · **QA Evidence & Traceability**. Disney enterprise theme.
 
 ## Local preview
 
 ```bash
-cd "1st Party Unification"
-python3 -m http.server 8080
-# Open http://localhost:8080
+./scripts/serve-local.sh
+# http://localhost:8080/
 ```
 
-## Sync from Jira (Disney VPN required)
+## Sync from Jira (VPN)
 
 ```bash
-cp .env.example .env   # add JIRA_TOKEN
+cp .env.example .env   # JIRA_TOKEN
 ./scripts/local-sync.sh
 ```
 
-Or reuse credentials from `POC/delta-gemini-console/.env` or `mcp-servers/jira-mcp-server/.env`.
-
-The sync script pulls epic **CPTR-72227**, child issues (Epic Link / parent / linked), and maps them to phases/systems/workflow steps by summary keywords.
+Pulls epic status, Xray stats for six test plans (three SIP/AMP primaries plus epic-linked RIGHTS-* plans).
 
 ## GitHub Pages
 
-1. Repo → **Settings** → **Pages** → Source: **GitHub Actions**
-2. Push to `main` — workflow `.github/workflows/deploy-pages.yml` publishes the site root.
+Settings → Pages → **GitHub Actions** → push `main`.
 
-Add repository secret `JIRA_TOKEN` (and optional `JIRA_SERVER`) to run **Jira Epic Sync** manually from Actions when on a network that can reach `jira.disney.com`.
-
-## Repository
-
-https://github.com/chakn005/1st-Party-Unification-Acquisition
+Repository: https://github.com/chakn005/1st-Party-Unification-Acquisition

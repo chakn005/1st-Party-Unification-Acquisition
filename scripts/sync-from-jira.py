@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sync 1st Party Unification Acquisition console from Jira epic CPTR-72227."""
+"""Sync acquisition console from epic CPTR-72227 and linked Xray test plans."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ import json
 import os
 import re
 import sys
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -19,11 +20,37 @@ DATA_JS = ROOT / "shared" / "data.js"
 INDEX_HTML = ROOT / "index.html"
 EPIC_KEY = "CPTR-72227"
 
+PRIMARY_PLANS = {
+    "milestone1": "DMEDNINJA-17790",
+    "milestone2": "DMEDNINJA-17818",
+    "amp": "OMFG-19970",
+}
+
+MILESTONE2_PIPELINE_KEYS = frozenset({"RIGHTS-28328", "RIGHTS-28094", "RIGHTS-28225"})
+
+RELATED_PLAN_PREFIXES = ("RIGHTS-", "RMS-")
+
 ENV_CANDIDATES = [
     ROOT / ".env",
     Path(__file__).resolve().parents[2] / "POC" / "delta-gemini-console" / ".env",
     Path(__file__).resolve().parents[2] / "mcp-servers" / "jira-mcp-server" / ".env",
 ]
+
+STATUS_MAP = {
+    "PASS": "completed",
+    "PASSED": "completed",
+    "DONE": "completed",
+    "TODO": "pending",
+    "TO DO": "pending",
+    "NOT RUN": "pending",
+    "NOTRUN": "pending",
+    "EXECUTING": "in-progress",
+    "IN PROGRESS": "in-progress",
+    "FAIL": "fail",
+    "FAILED": "fail",
+    "BLOCKED": "blocked",
+    "ABORTED": "blocked",
+}
 
 JIRA_STATUS_MAP = {
     "done": "completed",
@@ -35,36 +62,18 @@ JIRA_STATUS_MAP = {
     "in development": "in-progress",
     "implementing": "in-progress",
     "active": "in-progress",
-    "blocked": "blocked",
-    "impediment": "blocked",
-    "on hold": "blocked",
+    "new": "pending",
     "to do": "pending",
     "open": "pending",
     "backlog": "pending",
-    "new": "pending",
-    "todo": "pending",
+    "blocked": "blocked",
 }
 
-PHASE_KEYWORDS = {
-    "partner-setup": ["cpm", "partner", "cp id", "cp user", "external identifier"],
-    "rights": ["rightsline", "rights", "distribution rights", "dro"],
-    "avail-pipeline": ["avail", "ema", "falcon", "s3 key"],
-    "amp-pipeline": ["amp", "mmc"],
-    "av-pipeline": [" av ", "audio", "video", "mastering", "localization", "alid"],
-    "dtc-delivery": ["dtc", "disney+", "espn", "hulu", "portal", "catalog", "unified acquisition", "unified acq"],
-}
 
-SYSTEM_KEYWORDS = {
-    "cpm": ["cpm", "content partner"],
-    "rightsline": ["rightsline", "rights line"],
-    "falcon": ["falcon", "ema avail"],
-    "dtc-ua": ["unified acquisition", "dtc acquisition", "dtc ua"],
-    "dtc-catalog": ["catalog", "alid", "content id"],
-    "amp": [" amp", "asset management"],
-    "sip": ["sip", "delivery", "s3"],
-    "content-portal": ["content portal", "portal"],
-    "dtc": ["disney+", "espn+", "hulu", "dtc platform"],
-}
+def map_xray(name: str | None) -> str:
+    if not name:
+        return "pending"
+    return STATUS_MAP.get(name.strip().upper(), "pending")
 
 
 def map_jira_status(name: str | None) -> str:
@@ -94,8 +103,7 @@ def load_credentials() -> tuple[str, str, str | None, str | None, str]:
         if not password:
             password = os.getenv("JIRA_PASSWORD")
 
-    server = (server or "https://jira.disney.com").rstrip("/")
-    return server, token or "", username, password, source
+    return (server or "https://jira.disney.com").rstrip("/"), token or "", username, password, source
 
 
 class JiraClient:
@@ -122,184 +130,275 @@ class JiraClient:
         if resp.status_code >= 400:
             raise RuntimeError(f"GET {path} failed ({resp.status_code}): {resp.text[:240]}")
         if "application/json" not in resp.headers.get("Content-Type", ""):
-            raise RuntimeError(
-                "Jira returned non-JSON (likely SSO redirect). Connect to VPN and retry."
-            )
+            raise RuntimeError("Jira returned non-JSON (VPN/SSO required).")
         return resp.json()
 
     def issue(self, key: str) -> dict:
         return self._get(
             f"/rest/api/2/issue/{key}",
-            params={
-                "fields": "summary,status,assignee,reporter,updated,created,description,issuetype,labels,components"
-            },
+            params={"fields": "summary,status,assignee,reporter,updated,created,issuetype"},
         )
 
-    def search(self, jql: str, max_results: int = 200) -> list:
+    def search(self, jql: str, max_results: int = 100) -> list:
         data = self._get(
             "/rest/api/2/search",
             params={
                 "jql": jql,
                 "maxResults": max_results,
-                "fields": "summary,status,assignee,updated,issuetype,labels,components",
+                "fields": "summary,status,assignee,updated,issuetype",
             },
         )
         return data.get("issues", [])
 
-
-def infer_phase(summary: str, labels: list[str]) -> str | None:
-    text = f"{summary} {' '.join(labels)}".lower()
-    for phase_id, keywords in PHASE_KEYWORDS.items():
-        if any(kw in text for kw in keywords):
-            return phase_id
-    return None
-
-
-def infer_system(summary: str, labels: list[str]) -> str | None:
-    text = f" {summary} {' '.join(labels)} ".lower()
-    for system_id, keywords in SYSTEM_KEYWORDS.items():
-        if any(kw in text for kw in keywords):
-            return system_id
-    return None
-
-
-def infer_workflow_steps(data: dict, phase_id: str | None, system_id: str | None) -> list[str]:
-    steps = data.get("workflowSteps", [])
-    matches = []
-    for step in steps:
-        if phase_id and step.get("phase") != phase_id:
-            continue
-        if system_id and step.get("system") != system_id:
-            continue
-        if phase_id or system_id:
-            matches.append(step["id"])
-    return matches[:3]
+    def testplan_tests(self, plan_key: str) -> list:
+        page = 1
+        results: list = []
+        while True:
+            data = self._get(
+                f"/rest/raven/1.0/api/testplan/{plan_key}/test",
+                params={"limit": 100, "page": page},
+            )
+            batch = data if isinstance(data, list) else []
+            if not batch:
+                break
+            results.extend(batch)
+            if len(batch) < 100:
+                break
+            page += 1
+        return results
 
 
-def issue_to_work_item(issue: dict, data: dict) -> dict:
-    fields = issue["fields"]
-    labels = fields.get("labels") or []
-    components = [c.get("name", "") for c in (fields.get("components") or [])]
-    summary = fields.get("summary") or issue["key"]
-    jira_status = (fields.get("status") or {}).get("name", "Unknown")
-    phase_id = infer_phase(summary, labels + components)
-    system_id = infer_system(summary, labels + components)
-    step_ids = infer_workflow_steps(data, phase_id, system_id)
+def aggregate_plan_stats(client: JiraClient, plan_key: str) -> dict:
+    counters: Counter = Counter()
+    tests = client.testplan_tests(plan_key)
+    total = len(tests)
+    for test in tests:
+        raw = test.get("latestStatus")
+        name = raw.get("name") if isinstance(raw, dict) else raw
+        counters[map_xray(name)] += 1
+    if not counters and total:
+        counters["pending"] = total
+
+    pass_count = counters.get("completed", 0)
+    fail_count = counters.get("fail", 0)
+    blocked_count = counters.get("blocked", 0)
+    in_progress = counters.get("in-progress", 0)
+    pending = counters.get("pending", 0)
+    coverage = min(100, round((pass_count / total) * 100)) if total else 0
+
+    if pass_count or fail_count or blocked_count or in_progress:
+        xray_activity = "in-progress"
+    else:
+        xray_activity = "pending"
 
     return {
-        "key": issue["key"],
-        "summary": summary,
-        "url": f"{data['jira']['baseUrl']}/browse/{issue['key']}",
-        "jiraStatus": jira_status,
-        "status": map_jira_status(jira_status),
-        "issueType": (fields.get("issuetype") or {}).get("name"),
-        "assignee": (fields.get("assignee") or {}).get("displayName"),
-        "updated": (fields.get("updated") or "")[:10],
-        "phaseId": phase_id,
-        "systemId": system_id,
-        "workflowStepIds": step_ids,
-        "labels": labels,
+        "total": total,
+        "pass": pass_count,
+        "fail": fail_count,
+        "blocked": blocked_count,
+        "inProgress": in_progress,
+        "pending": pending,
+        "coverage": coverage,
+        "status": xray_activity,
     }
 
 
-def epic_to_record(issue: dict, server: str) -> dict:
+def derive_execution_status(jira_status: str | None, stats: dict) -> str:
+    """Complete only when the Jira test plan issue is Done — not when all Xray tests pass."""
+    jira_key = map_jira_status(jira_status)
+    if stats.get("fail"):
+        return "fail"
+    if jira_key == "completed":
+        return "completed"
+    if jira_key == "blocked":
+        return "blocked"
+    if jira_key == "pending" and stats.get("status") == "pending":
+        return "pending"
+    return "in-progress"
+
+
+def issue_to_plan(issue: dict, stats: dict, server: str, milestone_id: str | None = None) -> dict:
     fields = issue["fields"]
     key = issue["key"]
-    jira_status = (fields.get("status") or {}).get("name", "Unknown")
+    summary = fields.get("summary") or key
+    jira_status = fields.get("status", {}).get("name", "Unknown")
     return {
-        "key": key,
-        "summary": fields.get("summary") or key,
+        "id": key,
+        "milestoneId": milestone_id,
+        "name": summary,
+        "shortName": summary.split(" - ")[-1] if " - " in summary else summary,
         "url": f"{server}/browse/{key}",
         "jiraStatus": jira_status,
         "status": map_jira_status(jira_status),
+        "executionStatus": derive_execution_status(jira_status, stats),
+        "coverage": stats["coverage"],
+        "pass": stats["pass"],
+        "fail": stats["fail"],
+        "blocked": stats["blocked"],
+        "inProgress": stats["inProgress"],
+        "pending": stats["pending"],
+        "total": stats["total"],
+        "updated": (fields.get("updated") or "")[:10],
         "assignee": (fields.get("assignee") or {}).get("displayName"),
-        "updated": fields.get("updated"),
+        "issueType": (fields.get("issuetype") or {}).get("name"),
     }
 
 
 def fetch_epic_children(client: JiraClient, epic_key: str) -> list:
-    queries = [
-        f'"Epic Link" = {epic_key}',
-        f'parent = {epic_key}',
-        f'issue in linkedIssues({epic_key})',
-        f'project = CPTR AND text ~ "Unification" ORDER BY updated DESC',
-    ]
     seen: set[str] = set()
     issues: list = []
-    for jql in queries:
+    for jql in (
+        f'"Epic Link" = {epic_key}',
+        f"parent = {epic_key}",
+        f"issue in linkedIssues({epic_key})",
+    ):
         try:
-            batch = client.search(jql)
+            for issue in client.search(jql):
+                key = issue.get("key")
+                if key and key not in seen and key != epic_key:
+                    seen.add(key)
+                    issues.append(issue)
         except RuntimeError:
             continue
-        for issue in batch:
-            key = issue.get("key")
-            if key and key != epic_key and key not in seen:
-                seen.add(key)
-                issues.append(issue)
     return issues
+
+
+def classify_plan(key: str, summary: str) -> str | None:
+    text = f"{key} {summary}".lower()
+    if key == PRIMARY_PLANS["milestone1"] or "milestone_1" in text or "milestone 1" in text:
+        return "milestone1"
+    if key == PRIMARY_PLANS["milestone2"] or "milestone_2" in text or "milestone 2" in text:
+        return "milestone2"
+    if key == PRIMARY_PLANS["amp"] or (key == "OMFG-19970"):
+        return "amp"
+    if key.startswith(RELATED_PLAN_PREFIXES) or "test plan" in text:
+        return infer_related_milestone(key, summary) or "related"
+    return None
+
+
+def infer_related_milestone(key: str, summary: str) -> str | None:
+    """Map pipeline test plans to the milestone they support."""
+    if key in MILESTONE2_PIPELINE_KEYS:
+        return "milestone2"
+    text = f"{key} {summary}".lower()
+    if "milestone_1" in text or "milestone 1" in text:
+        return "milestone1"
+    if "milestone_2" in text or "milestone 2" in text:
+        return "milestone2"
+    if " amp " in f" {text} " or "omfg-" in text:
+        return "amp"
+    if "unified acquisition" in text or "rms-md" in text or "rms md" in text:
+        return "milestone2"
+    if "streaming" in text or ("ingest" in text and "amp" not in text):
+        return "milestone2"
+    if "fda" in text:
+        return "milestone2"
+    if "falcon" in text:
+        return "milestone2"
+    if "avail" in text:
+        return "milestone1"
+    return None
 
 
 def write_data_files(data: dict) -> None:
     payload = json.dumps(data, indent=2, ensure_ascii=False)
     DATA_JSON.write_text(payload + "\n", encoding="utf-8")
     DATA_JS.write_text(
-        f"/* 1st Party Unification Acquisition — shared data (auto-generated from data.json) */\n"
+        "/* Auto-generated from data.json — run scripts/sync-from-jira.py */\n"
         f"window.ACQUISITION_DATA = {payload};\n",
         encoding="utf-8",
     )
 
 
-def bump_asset_cache_version(data: dict) -> bool:
+def bump_cache_version(data: dict) -> None:
     version = (data.get("jira") or {}).get("dataVersion")
     if not version or not INDEX_HTML.exists():
-        return False
+        return
     text = INDEX_HTML.read_text(encoding="utf-8")
     updated = re.sub(r"\?v=[^\"']+", f"?v={version}", text)
-    if updated == text:
-        return False
-    INDEX_HTML.write_text(updated, encoding="utf-8")
-    return True
+    if updated != text:
+        INDEX_HTML.write_text(updated, encoding="utf-8")
 
 
-def verify_auth(client: JiraClient, source: str) -> None:
-    try:
-        client._get("/rest/api/2/myself")
-    except RuntimeError as exc:
-        raise RuntimeError(
-            f"Jira authentication failed using {source}. "
-            "Use corporate VPN and valid JIRA_TOKEN. "
-            f"Original error: {exc}"
-        ) from exc
+def load_base_data() -> dict:
+    if DATA_JSON.exists():
+        return json.loads(DATA_JSON.read_text(encoding="utf-8"))
+    return {}
 
 
 def main() -> int:
     server, token, username, password, source = load_credentials()
     if not token and not (username and password):
-        print("Missing Jira credentials. Copy .env.example to .env or use POC/mcp .env", file=sys.stderr)
+        print("Missing JIRA_TOKEN in .env", file=sys.stderr)
         return 1
 
-    data = json.loads(DATA_JSON.read_text(encoding="utf-8"))
+    data = load_base_data()
     client = JiraClient(server, token, username, password)
     print(f"Using credentials from: {source}")
-    verify_auth(client, source)
+    client._get("/rest/api/2/myself")
 
-    epic_issue = client.issue(EPIC_KEY)
-    data["epicIssue"] = epic_to_record(epic_issue, server)
-    print(f"Epic {EPIC_KEY}: {data['epicIssue']['summary']} | Jira={data['epicIssue']['jiraStatus']}")
+    epic = client.issue(EPIC_KEY)
+    ef = epic["fields"]
+    data["epic"] = {
+        "key": EPIC_KEY,
+        "summary": ef.get("summary") or EPIC_KEY,
+        "url": f"{server}/browse/{EPIC_KEY}",
+        "jiraStatus": ef.get("status", {}).get("name", "Unknown"),
+        "status": map_jira_status(ef.get("status", {}).get("name")),
+        "assignee": (ef.get("assignee") or {}).get("displayName"),
+        "updated": (ef.get("updated") or "")[:10],
+    }
+    print(f"Epic {EPIC_KEY}: {data['epic']['summary']} | {data['epic']['jiraStatus']}")
 
-    children = fetch_epic_children(client, EPIC_KEY)
-    work_items = [issue_to_work_item(issue, data) for issue in children]
-    data["workItems"] = sorted(work_items, key=lambda w: w["key"])
-    print(f"Loaded {len(work_items)} work items under epic")
+    milestones_cfg = data.get("milestones") or []
+    milestone_by_id = {m["id"]: m for m in milestones_cfg}
 
-    for item in work_items[:15]:
+    primary_plans: dict[str, dict] = {}
+    linked_by_milestone: dict[str, list] = {mid: [] for mid in PRIMARY_PLANS}
+    related_plans: list[dict] = []
+
+    for mid, key in PRIMARY_PLANS.items():
+        issue = client.issue(key)
+        stats = aggregate_plan_stats(client, key)
+        plan = issue_to_plan(issue, stats, server, mid)
+        primary_plans[mid] = plan
+        if mid in milestone_by_id:
+            milestone_by_id[mid]["testPlan"] = plan
         print(
-            f"  {item['key']}: {item['summary'][:60]} | phase={item.get('phaseId')} | "
-            f"system={item.get('systemId')} | {item['jiraStatus']}"
+            f"{mid}: {key} | Jira={plan['jiraStatus']} | "
+            f"tests {plan['pass']}/{plan['total']} pass | coverage={plan['coverage']}%"
         )
-    if len(work_items) > 15:
-        print(f"  ... and {len(work_items) - 15} more")
 
+    for issue in fetch_epic_children(client, EPIC_KEY):
+        key = issue["key"]
+        if key in PRIMARY_PLANS.values() or key == EPIC_KEY:
+            continue
+        summary = issue["fields"].get("summary") or key
+        bucket = classify_plan(key, summary)
+        if not bucket:
+            continue
+        stats = aggregate_plan_stats(client, key)
+        plan = issue_to_plan(issue, stats, server, bucket)
+        if bucket in linked_by_milestone:
+            linked_by_milestone[bucket].append(plan)
+            print(f"  linked → {bucket}: {key} | {summary[:50]}")
+        elif bucket == "related":
+            related_plans.append(plan)
+        else:
+            related_plans.append(plan)
+
+    data["milestones"] = list(milestone_by_id.values()) if milestone_by_id else _default_milestones(primary_plans)
+    for m in data["milestones"]:
+        tid = m.get("id")
+        if tid and tid in primary_plans:
+            m["testPlan"] = primary_plans[tid]
+        if tid:
+            m["linkedTestPlans"] = sorted(linked_by_milestone.get(tid, []), key=lambda p: p["id"])
+
+    data["relatedTestPlans"] = sorted(related_plans, key=lambda p: p["id"])
+    data["programRollup"] = compute_program_rollup(data)
+
+    version = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
     data["jira"] = {
         **(data.get("jira") or {}),
         "baseUrl": server,
@@ -308,14 +407,101 @@ def main() -> int:
         "lastSynced": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "syncSource": "scripts/sync-from-jira.py",
         "syncRequired": False,
-        "dataVersion": datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S"),
+        "syncTestPlans": list(PRIMARY_PLANS.values()),
+        "dataVersion": version,
     }
 
     write_data_files(data)
-    if bump_asset_cache_version(data):
-        print(f"Updated cache version in {INDEX_HTML.name}")
-    print(f"\nUpdated {DATA_JSON} and {DATA_JS}")
+    bump_cache_version(data)
+    print(f"\nUpdated {DATA_JSON}")
     return 0
+
+
+def _default_milestones(plans: dict) -> list:
+    return [
+        {
+            "id": "milestone1",
+            "name": "Milestone 1",
+            "subtitle": "SIP — Avail & early acquisition path",
+            "testPlan": plans.get("milestone1"),
+            "workflowZoneIds": ["partner", "avail", "storage-in"],
+        },
+        {
+            "id": "milestone2",
+            "name": "Milestone 2",
+            "subtitle": "SIP — AV delivery & catalog finalization",
+            "testPlan": plans.get("milestone2"),
+            "workflowZoneIds": ["av-delivery", "dtc-out"],
+        },
+        {
+            "id": "amp",
+            "name": "AMP Test Plan",
+            "subtitle": "AMP order, SIP delivery, DTC ingest",
+            "testPlan": plans.get("amp"),
+            "workflowZoneIds": ["amp-path"],
+        },
+    ]
+
+
+def collect_program_test_plans(data: dict) -> list[dict]:
+    """Primary + linked test plans across all milestones (deduped by issue key)."""
+    seen: set[str] = set()
+    plans: list[dict] = []
+    for m in data.get("milestones", []):
+        for p in [m.get("testPlan"), *(m.get("linkedTestPlans") or [])]:
+            key = p.get("id") if p else None
+            if key and key not in seen:
+                seen.add(key)
+                plans.append(p)
+    return plans
+
+
+def compute_program_rollup(data: dict) -> dict:
+    plans = collect_program_test_plans(data)
+    if not plans:
+        return {
+            "status": data.get("epic", {}).get("status", "pending"),
+            "coverage": 0,
+            "pass": 0,
+            "fail": 0,
+            "pending": 0,
+            "total": 0,
+            "planCount": 0,
+            "plansComplete": 0,
+            "milestonesComplete": 0,
+            "milestoneTotal": 0,
+        }
+
+    total = sum(p.get("total", 0) for p in plans)
+    passed = sum(p.get("pass", 0) for p in plans)
+    failed = sum(p.get("fail", 0) for p in plans)
+    pending = sum(p.get("pending", 0) for p in plans)
+    coverage = min(100, round((passed / total) * 100)) if total else 0
+    plans_complete = sum(1 for p in plans if p.get("executionStatus") == "completed")
+
+    statuses = [p.get("executionStatus", "pending") for p in plans]
+    if all(s == "completed" for s in statuses):
+        prog_status = "completed"
+    elif any(s in ("fail", "blocked") for s in statuses):
+        prog_status = "fail" if any(s == "fail" for s in statuses) else "blocked"
+    elif any(s == "in-progress" for s in statuses) or passed:
+        prog_status = "in-progress"
+    else:
+        prog_status = "pending"
+
+    plan_count = len(plans)
+    return {
+        "status": prog_status,
+        "coverage": coverage,
+        "pass": passed,
+        "fail": failed,
+        "pending": pending,
+        "total": total,
+        "planCount": plan_count,
+        "plansComplete": plans_complete,
+        "milestonesComplete": plans_complete,
+        "milestoneTotal": plan_count,
+    }
 
 
 if __name__ == "__main__":
