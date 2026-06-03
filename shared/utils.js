@@ -1,5 +1,11 @@
 function acqPrefix() {
-  return window.ACQ_PREFIX || "";
+  if (window.ACQ_PREFIX) return window.ACQ_PREFIX;
+  const path = window.location.pathname || "";
+  const match = path.match(/^(\/[^/]+)\//);
+  if (match && path.includes("github.io")) {
+    return `${match[1]}/`;
+  }
+  return "";
 }
 
 function initTabs() {
