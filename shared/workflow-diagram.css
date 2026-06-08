@@ -24,8 +24,9 @@
 
 .wf-ua-hero h2 {
   margin: 0 0 0.5rem;
-  font-size: 1.2rem;
+  font-size: var(--font-heading-md);
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .wf-ua-hero p {
@@ -69,9 +70,10 @@
 .wf-arch-board {
   background: var(--disney-surface);
   border: 1px solid var(--disney-border);
-  border-radius: 12px;
-  padding: 1.25rem 1rem 1.5rem;
+  border-radius: 14px;
+  padding: 1.35rem 1.15rem 1.6rem;
   overflow-x: auto;
+  box-shadow: var(--shadow-card);
 }
 
 .wf-arch-grid {
@@ -310,8 +312,8 @@
 
 /* Swimlane diagram (docx image 2) */
 .wf-swim-title {
-  font-size: 1.125rem;
-  font-weight: 600;
+  font-size: var(--font-heading-md);
+  font-weight: 700;
   color: var(--disney-blue);
   margin: 1.25rem 0 0.5rem;
 }
@@ -319,8 +321,9 @@
 .wf-swim-board {
   background: var(--disney-surface);
   border: 1px solid var(--disney-border);
-  border-radius: 12px;
+  border-radius: 14px;
   overflow-x: auto;
+  box-shadow: var(--shadow-card);
 }
 
 .wf-swim-table {
@@ -418,7 +421,8 @@
 
 .wf-detail-panel h3 {
   margin: 0 0 0.4rem;
-  font-size: 1.125rem;
+  font-size: var(--font-heading-sm);
+  font-weight: 700;
   color: var(--disney-blue);
 }
 

@@ -65,34 +65,37 @@
 .epic-strip h2 { margin: 0; font-size: 1rem; color: var(--disney-blue); font-weight: 600; }
 .epic-strip .epic-meta { font-size: var(--font-content); color: var(--disney-muted); margin-top: 0.25rem; }
 
-.kpi .v { font-size: 1.5rem; font-weight: 700; color: var(--disney-blue); }
+.kpi .v { font-size: 2rem; font-weight: 800; color: var(--disney-blue); line-height: 1.1; }
 .kpi .l {
-  font-size: var(--font-content);
+  font-size: var(--font-label);
   color: var(--disney-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  margin-top: 0.2rem;
+  margin-top: 0.35rem;
+  font-weight: 600;
 }
 
 .section-title {
-  font-size: 1.125rem;
+  font-size: var(--font-heading-md);
   color: var(--disney-blue);
-  margin: 0 0 0.35rem;
-  font-weight: 600;
+  margin: 0 0 0.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 .section-sub {
   font-size: var(--font-content);
   color: var(--disney-muted);
-  margin: 0 0 1rem;
-  line-height: 1.55;
+  margin: 0 0 1.25rem;
+  line-height: 1.6;
 }
 
 .milestone-section {
   background: var(--disney-surface);
   border: 1px solid var(--disney-border);
-  border-radius: 12px;
-  padding: 1.25rem 1.35rem;
-  margin-bottom: 1.5rem;
+  border-radius: 14px;
+  padding: 1.5rem 1.5rem;
+  margin-bottom: 1.75rem;
+  box-shadow: var(--shadow-card);
 }
 .milestone-section[data-milestone="milestone1"] { border-left: 5px solid #0d9488; }
 .milestone-section[data-milestone="milestone2"] { border-left: 5px solid #7c3aed; }
@@ -109,20 +112,21 @@
 }
 .milestone-section-title {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: var(--font-heading-md);
   color: var(--disney-blue);
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
-.milestone-section-sub { margin: 0.25rem 0 0; font-size: var(--font-content); color: var(--disney-muted); }
+.milestone-section-sub { margin: 0.35rem 0 0; font-size: var(--font-content); color: var(--disney-muted); line-height: 1.6; }
 .milestone-section-stats { text-align: right; }
 .milestone-rollup { display: block; font-size: var(--font-content); color: var(--disney-muted); margin-top: 0.35rem; }
 .milestone-block-label {
-  font-size: var(--font-content);
+  font-size: var(--font-label);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   color: var(--disney-blue-mid);
-  margin: 0 0 0.65rem;
-  font-weight: 600;
+  margin: 0 0 0.75rem;
+  font-weight: 700;
 }
 .milestone-section-compact { padding: 1rem; margin-bottom: 1rem; }
 
@@ -134,13 +138,20 @@
 .plan-card {
   background: #f8fafc;
   border: 1px solid var(--disney-border);
-  border-radius: 10px;
-  padding: 1rem;
-  max-width: 520px;
+  border-radius: 12px;
+  padding: 1.2rem 1.25rem;
+  max-width: 560px;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.15s, border-color 0.15s;
 }
-.plan-card-primary { border-color: var(--disney-blue-mid); background: var(--disney-blue-soft); }
-.plan-card-id { margin: 0 0 0.4rem; font-weight: 600; font-size: var(--font-content); }
-.plan-card-meta, .plan-card-owner { font-size: var(--font-content); color: var(--disney-muted); margin: 0.35rem 0; }
+.plan-card:hover { box-shadow: var(--shadow-card-hover); }
+.plan-card-primary {
+  border-color: var(--disney-blue-mid);
+  background: linear-gradient(135deg, var(--disney-blue-soft) 0%, #f0f7ff 100%);
+  border-width: 2px;
+}
+.plan-card-id { margin: 0 0 0.5rem; font-weight: 700; font-size: var(--font-heading-sm); color: var(--disney-blue); }
+.plan-card-meta, .plan-card-owner { font-size: var(--font-content); color: var(--disney-muted); margin: 0.4rem 0; line-height: 1.6; }
 
 .disney-tabs button {
   cursor: pointer;
@@ -151,12 +162,12 @@
 
 .st-badge {
   display: inline-block;
-  font-size: var(--font-content);
+  font-size: var(--font-label);
   font-weight: 700;
-  padding: 0.18rem 0.5rem;
+  padding: 0.28rem 0.65rem;
   border-radius: 999px;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
 }
 .status-completed { background: var(--disney-completed-bg); color: var(--disney-completed); }
 .status-progress { background: var(--disney-progress-bg); color: var(--disney-progress); }
@@ -164,8 +175,8 @@
 .status-blocked, .status-fail { background: var(--disney-red-soft); color: var(--disney-red); }
 
 .exec-bar {
-  height: 8px;
-  border-radius: 4px;
+  height: 10px;
+  border-radius: 5px;
   overflow: hidden;
   background: var(--disney-pending-bg);
   margin: 0.55rem 0;
@@ -254,7 +265,7 @@
   min-height: 80px;
   font-size: var(--font-content);
 }
-.wf-detail h3 { margin: 0 0 0.4rem; font-size: 1.125rem; color: var(--disney-blue); }
+.wf-detail h3 { margin: 0 0 0.4rem; font-size: var(--font-heading-sm); font-weight: 700; color: var(--disney-blue); }
 
 /* QA Evidence tab */
 .evidence-grid {
@@ -266,12 +277,15 @@
 .evidence-card {
   background: var(--disney-surface);
   border: 1px solid var(--disney-border);
-  border-radius: 10px;
-  padding: 1rem 1.15rem;
+  border-radius: 12px;
+  padding: 1.2rem 1.25rem;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.15s;
 }
-.evidence-card h4 { margin: 0.35rem 0 0.5rem; font-size: 1.125rem; color: var(--disney-blue); }
+.evidence-card:hover { box-shadow: var(--shadow-card-hover); }
+.evidence-card h4 { margin: 0.35rem 0 0.5rem; font-size: var(--font-heading-sm); font-weight: 700; color: var(--disney-blue); }
 .evidence-tag {
-  font-size: var(--font-content);
+  font-size: var(--font-label);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -300,10 +314,11 @@
 .evidence-artifact-card {
   background: var(--disney-surface);
   border: 1px solid var(--disney-border);
-  border-radius: 10px;
-  padding: 1rem;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: var(--shadow-card);
 }
-.evidence-artifact-card h4 { margin: 0 0 0.35rem; color: var(--disney-blue); font-size: 1.125rem; }
+.evidence-artifact-card h4 { margin: 0 0 0.35rem; color: var(--disney-blue); font-size: var(--font-heading-sm); font-weight: 700; }
 .artifact-meta { font-size: var(--font-content); color: var(--disney-muted); margin-bottom: 0.5rem; }
 .ref-diagram {
   max-width: 100%;
@@ -321,7 +336,7 @@
 }
 .related-table { width: 100%; border-collapse: collapse; font-size: var(--font-content); }
 .related-table th, .related-table td {
-  padding: 0.6rem 0.75rem;
+  padding: 0.75rem 0.9rem;
   border-bottom: 1px solid var(--disney-border);
   text-align: left;
 }
