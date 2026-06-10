@@ -33,6 +33,7 @@ jobs:
             --exclude 'option-5' \
             --exclude 'option-6' \
             --exclude 'index-local.html' \
+            --exclude 'delta-gemini-options' \
             --exclude 'scripts' \
             --exclude 'requirements-sync.txt' \
             --exclude '__pycache__' \
