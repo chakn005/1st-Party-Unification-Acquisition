@@ -42,6 +42,21 @@
   font-weight: 500;
 }
 
+.disney-header-dg-link {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: var(--font-label, 13px);
+  font-weight: 600;
+  color: var(--disney-red);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.disney-header-dg-link:hover {
+  text-decoration: underline;
+  color: #a93226;
+}
+
 .disney-main { max-width: 1280px; }
 
 .disney-header .jira-epic-link {
