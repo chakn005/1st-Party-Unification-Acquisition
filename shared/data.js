@@ -3,7 +3,7 @@ window.ACQUISITION_DATA = {
   "program": "1st Party Unification Acquisition",
   "epic": {
     "key": "CPTR-72227",
-    "summary": "1st Party DTC Unified Acquisition \u2013 QA Coverage & Traceability",
+    "summary": "1st Party DTC Unified Acquisition – QA Coverage & Traceability",
     "url": "https://jira.disney.com/browse/CPTR-72227",
     "jiraStatus": "In Progress",
     "status": "in-progress",
@@ -14,7 +14,7 @@ window.ACQUISITION_DATA = {
     {
       "id": "milestone1",
       "name": "Milestone 1",
-      "subtitle": "SIP test plan \u2014 partner setup through avail ingestion & S3 handoff",
+      "subtitle": "SIP test plan — partner setup through avail ingestion & S3 handoff",
       "workflowZoneIds": [
         "partner",
         "avail",
@@ -36,7 +36,7 @@ window.ACQUISITION_DATA = {
         "inProgress": 0,
         "pending": 0,
         "total": 19,
-        "updated": "2026-06-03",
+        "updated": "2026-06-08",
         "assignee": "Arsheya Sardar",
         "issueType": "Test Plan"
       },
@@ -45,7 +45,7 @@ window.ACQUISITION_DATA = {
     {
       "id": "milestone2",
       "name": "Milestone 2",
-      "subtitle": "SIP test plan \u2014 AV delivery, catalog finalization, DTC surfacing",
+      "subtitle": "SIP test plan — AV delivery, catalog finalization, DTC surfacing",
       "workflowZoneIds": [
         "av-delivery",
         "dtc-out"
@@ -80,22 +80,22 @@ window.ACQUISITION_DATA = {
           "jiraStatus": "In Progress",
           "status": "in-progress",
           "executionStatus": "in-progress",
-          "coverage": 8,
-          "pass": 23,
+          "coverage": 10,
+          "pass": 29,
           "fail": 0,
           "blocked": 0,
           "inProgress": 0,
-          "pending": 264,
-          "total": 287,
-          "updated": "2026-06-03",
+          "pending": 262,
+          "total": 291,
+          "updated": "2026-06-10",
           "assignee": "Vijay Gajendra",
           "issueType": "Test Plan"
         },
         {
           "id": "RIGHTS-28225",
           "milestoneId": "milestone2",
-          "name": "FDA - Test Plan - 26-06-24 FDA Delta Gemini Release 8.0.0",
-          "shortName": "26-06-24 FDA Delta Gemini Release 8.0.0",
+          "name": "FDA - Test Plan - 26-06-DD FDA Hulu as a Licensee (1st Party Unified Acquisition) Release 8.0.0",
+          "shortName": "26-06-DD FDA Hulu as a Licensee (1st Party Unified Acquisition) Release 8.0.0",
           "url": "https://jira.disney.com/browse/RIGHTS-28225",
           "jiraStatus": "In Progress",
           "status": "in-progress",
@@ -107,7 +107,7 @@ window.ACQUISITION_DATA = {
           "inProgress": 0,
           "pending": 0,
           "total": 23,
-          "updated": "2026-06-03",
+          "updated": "2026-06-05",
           "assignee": "Smrithi Ravindranath",
           "issueType": "Test Plan"
         },
@@ -121,13 +121,13 @@ window.ACQUISITION_DATA = {
           "status": "in-progress",
           "executionStatus": "in-progress",
           "coverage": 21,
-          "pass": 22,
+          "pass": 23,
           "fail": 0,
           "blocked": 0,
           "inProgress": 0,
           "pending": 84,
-          "total": 106,
-          "updated": "2026-06-03",
+          "total": 107,
+          "updated": "2026-06-09",
           "assignee": "Anush Kadam",
           "issueType": "Test Plan"
         }
@@ -136,7 +136,7 @@ window.ACQUISITION_DATA = {
     {
       "id": "amp",
       "name": "AMP",
-      "subtitle": "AMP test plan \u2014 order, SIP delivery, unified acquisition ingest",
+      "subtitle": "AMP test plan — order, SIP delivery, unified acquisition ingest",
       "workflowZoneIds": [
         "amp-path"
       ],
@@ -156,7 +156,7 @@ window.ACQUISITION_DATA = {
         "inProgress": 0,
         "pending": 3,
         "total": 6,
-        "updated": "2026-06-03",
+        "updated": "2026-06-10",
         "assignee": "Pooja Bullapura Channabasappa",
         "issueType": "Test Plan"
       },
@@ -166,15 +166,15 @@ window.ACQUISITION_DATA = {
   "relatedTestPlans": [],
   "programRollup": {
     "status": "in-progress",
-    "coverage": 21,
-    "pass": 93,
+    "coverage": 22,
+    "pass": 100,
     "fail": 0,
-    "pending": 351,
-    "total": 444,
-    "milestonesComplete": 0,
-    "milestoneTotal": 6,
+    "pending": 349,
+    "total": 449,
     "planCount": 6,
-    "plansComplete": 0
+    "plansComplete": 0,
+    "milestonesComplete": 0,
+    "milestoneTotal": 6
   },
   "consolidatedWorkflow": {
     "title": "End-to-end acquisition (architecture + implementation)",
@@ -271,7 +271,7 @@ window.ACQUISITION_DATA = {
         "systems": [
           "DTC UA"
         ],
-        "summary": "Ingest EMA Avail; hand off to catalog for CP User Name \u2192 Content ID / ALID mapping"
+        "summary": "Ingest EMA Avail; hand off to catalog for CP User Name → Content ID / ALID mapping"
       },
       {
         "id": "dtc-catalog-avail",
@@ -307,7 +307,7 @@ window.ACQUISITION_DATA = {
         "id": "sip-amp",
         "zone": "amp-path",
         "order": 10,
-        "name": "SIP \u2192 S3",
+        "name": "SIP → S3",
         "systems": [
           "SIP"
         ],
@@ -339,7 +339,7 @@ window.ACQUISITION_DATA = {
         "id": "sip-av-deliver",
         "zone": "av-delivery",
         "order": 13,
-        "name": "AV \u2192 S3",
+        "name": "AV → S3",
         "systems": [
           "SIP"
         ],
@@ -363,7 +363,7 @@ window.ACQUISITION_DATA = {
         "systems": [
           "Catalog"
         ],
-        "summary": "Add CP ID from ALID \u2192 CP User Name mapping"
+        "summary": "Add CP ID from ALID → CP User Name mapping"
       },
       {
         "id": "content-portal",
@@ -478,14 +478,14 @@ window.ACQUISITION_DATA = {
     "baseUrl": "https://jira.disney.com",
     "browsePath": "/browse/",
     "epicKey": "CPTR-72227",
-    "lastSynced": "2026-06-03T12:35:57Z",
+    "lastSynced": "2026-06-10T13:51:21Z",
     "syncRequired": false,
     "syncTestPlans": [
       "DMEDNINJA-17790",
       "DMEDNINJA-17818",
       "OMFG-19970"
     ],
-    "dataVersion": "20260603123557",
+    "dataVersion": "20260610135121",
     "syncSource": "scripts/sync-from-jira.py"
   }
 };
