@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1st Party Unification Acquisition</title>
+  <link rel="stylesheet" href="shared/disney-theme.css">
+  <link rel="stylesheet" href="shared/console.css">
+  <link rel="stylesheet" href="shared/workflow-diagram.css">
+</head>
+<body>
+  <header class="disney-header">
+    <div class="disney-header-inner">
+      <div class="disney-header-brand">
+        <h1>1st Party Unification Acquisition</h1>
+        <span class="sub">QA Coverage &amp; Traceability</span>
+      </div>
+      <div class="disney-header-meta">
+        <span class="disney-header-env">Env: Staging</span>
+        <span class="disney-header-epic">Epic <a class="jira-epic-link" href="https://jira.disney.com/browse/CPTR-72227" target="_blank" rel="noopener noreferrer">CPTR-72227</a></span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="disney-tabs" id="tabs">
+    <button type="button" class="active" data-tab="milestone1">Milestone 1</button>
+    <button type="button" data-tab="milestone2">Milestone 2</button>
+    <button type="button" data-tab="pipeline">E2E Acquisition Pipeline</button>
+    <button type="button" data-tab="evidence">QA Evidence &amp; Traceability</button>
+  </nav>
+
+  <main class="disney-main" id="app">
+    <div id="sync-note" class="sync-note"></div>
+
+    <section class="panel active" data-panel="milestone1">
+      <div class="kpi-row" id="milestone1-kpis"></div>
+      <div id="milestone1-panel"></div>
+    </section>
+
+    <section class="panel" data-panel="milestone2">
+      <div class="kpi-row" id="milestone2-kpis"></div>
+      <div id="milestone2-panel"></div>
+    </section>
+
+    <section class="panel" data-panel="pipeline">
+      <div class="pipeline-tab-meta">
+        <span class="pipeline-tab-epic">Epic <a class="jira-epic-link" href="https://jira.disney.com/browse/CPTR-72227" target="_blank" rel="noopener noreferrer">CPTR-72227</a></span>
+        <a class="pipeline-dg-link" href="https://chakn005.github.io/DeltaGemini/" target="_blank" rel="noopener noreferrer">Delta Gemini workflow →</a>
+      </div>
+      <div id="workflow-diagram-root" class="wf-diagram-panel"></div>
+    </section>
+
+    <section class="panel" data-panel="evidence">
+      <h2 class="section-title">QA Evidence &amp; Traceability</h2>
+      <div id="evidences-panel"></div>
+    </section>
+
+    <footer class="footer-meta" id="jira-footer"></footer>
+  </main>
+
+  <script src="shared/data.js"></script>
+  <script src="shared/utils.js"></script>
+  <script src="shared/jira.js"></script>
+  <script src="shared/milestones.js"></script>
+  <script src="shared/workflow-diagram.js"></script>
+  <script src="shared/evidences.js"></script>
+  <script>
+    initTabs();
+    renderSyncNote();
+    renderMilestoneTab("milestone1", "milestone1-panel", "milestone1-kpis");
+    renderMilestone2Tab();
+    renderWorkflowDiagram();
+    renderEvidencesTab();
+    document.getElementById("jira-footer").innerHTML = renderJiraMetaFooter();
+  </script>
+</body>
+</html>
