@@ -78,11 +78,19 @@
 
 .wf-arch-grid {
   display: grid;
-  grid-template-columns: minmax(150px, 1fr) 22px minmax(108px, 0.9fr) 22px 76px 28px minmax(188px, 220px);
+  grid-template-columns: minmax(150px, 1fr) 22px minmax(108px, 0.9fr) 22px minmax(92px, 104px) 28px minmax(188px, 220px);
   grid-template-rows: auto auto;
   gap: 0.75rem 0.2rem;
   align-items: center;
-  min-width: 900px;
+  min-width: 920px;
+}
+
+.wf-arch-g-r1c5,
+.wf-arch-g-r2c5 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 0;
 }
 
 .wf-arch-g-r1c1 { grid-column: 1; grid-row: 1; }
@@ -229,15 +237,22 @@
 }
 
 .wf-s3-icon {
-  width: 56px;
-  padding: 0.4rem;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 104px;
+  min-width: 0;
+  padding: 0.45rem 0.35rem;
   background: linear-gradient(180deg, #e8f0fa, #dbeafe);
   border: 1px solid var(--disney-blue-mid);
   border-radius: 6px 6px 10px 10px;
-  font-size: var(--font-content);
+  font-size: var(--font-label);
   font-weight: 700;
+  line-height: 1.25;
   color: var(--disney-blue);
   text-align: center;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
 }
 
 .wf-arch-dtc {

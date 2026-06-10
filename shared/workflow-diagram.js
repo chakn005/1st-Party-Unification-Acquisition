@@ -181,6 +181,11 @@ function renderWorkflowDiagram() {
   bindDiagramInteractions(root);
 }
 
+function formatS3BucketLabel(label) {
+  const safe = escapeHtml(label);
+  return safe.replace(/^S3\s+\(/, "S3<br>(");
+}
+
 function renderArchitectureCanvas(arch) {
   const arrow = `<span class="wf-arch-arrow" aria-hidden="true">→</span>`;
 
@@ -199,7 +204,7 @@ function renderArchitectureCanvas(arch) {
         <div class="wf-arch-tags">${arch.objects.avails.tags.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
       </div>
       <div class="wf-arch-g-r1c4">${arrow}</div>
-      <div class="wf-arch-g-r1c5"><div class="wf-s3-icon">${escapeHtml(arch.storage.buckets[0])}</div></div>
+      <div class="wf-arch-g-r1c5"><div class="wf-s3-icon">${formatS3BucketLabel(arch.storage.buckets[0])}</div></div>
       <div class="wf-arch-g-r1c6 wf-arch-arrow-into-dtc">${arrow}</div>
 
       <div class="wf-arch-group wf-arch-g-r2c1">
@@ -216,7 +221,7 @@ function renderArchitectureCanvas(arch) {
         <div class="wf-arch-tags">${arch.objects.content.tags.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
       </div>
       <div class="wf-arch-g-r2c4">${arrow}</div>
-      <div class="wf-arch-g-r2c5"><div class="wf-s3-icon">${escapeHtml(arch.storage.buckets[1])}</div></div>
+      <div class="wf-arch-g-r2c5"><div class="wf-s3-icon">${formatS3BucketLabel(arch.storage.buckets[1])}</div></div>
       <div class="wf-arch-g-r2c6 wf-arch-arrow-into-dtc">${arrow}</div>
 
       <div class="wf-arch-dtc wf-arch-dtc-column">
