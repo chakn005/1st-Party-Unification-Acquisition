@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="shared/disney-theme.css">
   <link rel="stylesheet" href="shared/console.css">
   <link rel="stylesheet" href="shared/workflow-diagram.css">
+  <link rel="stylesheet" href="shared/overview.css">
 </head>
 <body>
   <header class="disney-header">
@@ -23,7 +24,8 @@
   </header>
 
   <nav class="disney-tabs" id="tabs">
-    <button type="button" class="active" data-tab="milestone1">Milestone 1</button>
+    <button type="button" class="active" data-tab="overview">Overview</button>
+    <button type="button" data-tab="milestone1">Milestone 1</button>
     <button type="button" data-tab="milestone2">Milestone 2</button>
     <button type="button" data-tab="pipeline">E2E Acquisition Pipeline</button>
     <button type="button" data-tab="evidence">QA Evidence &amp; Traceability</button>
@@ -32,7 +34,11 @@
   <main class="disney-main" id="app">
     <div id="sync-note" class="sync-note"></div>
 
-    <section class="panel active" data-panel="milestone1">
+    <section class="panel active" data-panel="overview">
+      <div id="overview-panel"></div>
+    </section>
+
+    <section class="panel" data-panel="milestone1">
       <div class="kpi-row" id="milestone1-kpis"></div>
       <div id="milestone1-panel"></div>
     </section>
@@ -64,9 +70,11 @@
   <script src="shared/milestones.js"></script>
   <script src="shared/workflow-diagram.js"></script>
   <script src="shared/evidences.js"></script>
+  <script src="shared/overview.js"></script>
   <script>
     initTabs();
     renderSyncNote();
+    renderOverviewTab();
     renderMilestoneTab("milestone1", "milestone1-panel", "milestone1-kpis");
     renderMilestone2Tab();
     renderWorkflowDiagram();

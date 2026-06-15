@@ -8,7 +8,7 @@ Leadership view of **epic [CPTR-72227](https://jira.disney.com/browse/CPTR-72227
 | **Milestone 2** | [DMEDNINJA-17818](https://jira.disney.com/browse/DMEDNINJA-17818) | SIP — AV delivery, catalog, DTC |
 | **AMP** | [OMFG-19970](https://jira.disney.com/browse/OMFG-19970) | AMP order & SIP delivery to unified acquisition |
 
-**Tabs:** **Milestone 1** · **Milestone 2** · **E2E Acquisition Pipeline** · **QA Evidence & Traceability**. Disney enterprise theme.
+**Tabs:** **Overview** · **Milestone 1** · **Milestone 2** · **E2E Acquisition Pipeline** · **QA Evidence & Traceability**. Disney enterprise theme.
 
 ## Local preview
 

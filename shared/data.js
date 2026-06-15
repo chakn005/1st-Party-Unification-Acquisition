@@ -8,7 +8,7 @@ window.ACQUISITION_DATA = {
     "jiraStatus": "In Progress",
     "status": "in-progress",
     "assignee": "Niloy Chakraborty",
-    "updated": "2026-06-03"
+    "updated": "2026-06-15"
   },
   "milestones": [
     {
@@ -143,8 +143,8 @@ window.ACQUISITION_DATA = {
       "testPlan": {
         "id": "OMFG-19970",
         "milestoneId": "amp",
-        "name": "AMP - 1st Party Acquisition",
-        "shortName": "1st Party Acquisition",
+        "name": "AMP - 1st Party Acquisition- Milestone_1",
+        "shortName": "1st Party Acquisition- Milestone_1",
         "url": "https://jira.disney.com/browse/OMFG-19970",
         "jiraStatus": "In Progress",
         "status": "in-progress",
@@ -156,7 +156,7 @@ window.ACQUISITION_DATA = {
         "inProgress": 0,
         "pending": 3,
         "total": 6,
-        "updated": "2026-06-10",
+        "updated": "2026-06-15",
         "assignee": "Pooja Bullapura Channabasappa",
         "issueType": "Test Plan"
       },
@@ -478,14 +478,208 @@ window.ACQUISITION_DATA = {
     "baseUrl": "https://jira.disney.com",
     "browsePath": "/browse/",
     "epicKey": "CPTR-72227",
-    "lastSynced": "2026-06-15T07:10:19Z",
+    "lastSynced": "2026-06-15T12:31:39Z",
     "syncRequired": false,
     "syncTestPlans": [
       "DMEDNINJA-17790",
       "DMEDNINJA-17818",
       "OMFG-19970"
     ],
-    "dataVersion": "20260615071019",
+    "dataVersion": "20260615123139",
     "syncSource": "scripts/sync-from-jira.py"
-  }
+  },
+  "programHeatmaps": [
+    {
+      "id": "m1-cross-alliance",
+      "title": "Milestone 1 Cross Alliance Testing",
+      "subtitle": "Cross-alliance integration status by track — sourced from Jira epic",
+      "jiraKey": "CPTR-72676",
+      "jiraUrl": "https://jira.disney.com/browse/CPTR-72676",
+      "jiraStatus": "In Progress",
+      "available": true,
+      "columns": [
+        {
+          "id": "metadata-artwork",
+          "label": "Metadata/Artwork",
+          "short": "Metadata/Artwork"
+        },
+        {
+          "id": "av-assets",
+          "label": "AV Assets",
+          "short": "AV Assets"
+        },
+        {
+          "id": "avails-rights",
+          "label": "Avails/Rights",
+          "short": "Avails/Rights"
+        },
+        {
+          "id": "title-planning",
+          "label": "Title Planning",
+          "short": "Title Planning"
+        },
+        {
+          "id": "s3-ingest",
+          "label": "S3 Ingest",
+          "short": "S3 Ingest"
+        }
+      ],
+      "alliances": [
+        {
+          "id": "content",
+          "name": "Content Platform",
+          "color": "#0d9488"
+        },
+        {
+          "id": "media",
+          "name": "Media Platform",
+          "color": "#7c3aed"
+        },
+        {
+          "id": "streaming",
+          "name": "Streaming Alliances",
+          "color": "#1f80e0"
+        }
+      ],
+      "cells": {
+        "content": {
+          "metadata-artwork": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "av-assets": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "avails-rights": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "title-planning": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "s3-ingest": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          }
+        },
+        "media": {
+          "metadata-artwork": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "av-assets": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "avails-rights": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "title-planning": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "s3-ingest": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          }
+        },
+        "streaming": {
+          "metadata-artwork": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "av-assets": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "avails-rights": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "title-planning": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          },
+          "s3-ingest": {
+            "status": "pending",
+            "jiraKey": null,
+            "summary": null
+          }
+        }
+      },
+      "issuesMapped": 0
+    },
+    {
+      "id": "m2-cross-alliance",
+      "title": "Milestone 2 Cross Alliance Testing",
+      "subtitle": "Test plan not yet defined in Jira",
+      "jiraKey": null,
+      "jiraUrl": null,
+      "jiraStatus": null,
+      "available": false,
+      "placeholderMessage": "Milestone 2 cross-alliance test plan is not yet available. Heatmap will populate when linked in Jira.",
+      "columns": [
+        {
+          "id": "metadata-artwork",
+          "label": "Metadata/Artwork",
+          "short": "Metadata/Artwork"
+        },
+        {
+          "id": "av-assets",
+          "label": "AV Assets",
+          "short": "AV Assets"
+        },
+        {
+          "id": "avails-rights",
+          "label": "Avails/Rights",
+          "short": "Avails/Rights"
+        },
+        {
+          "id": "title-planning",
+          "label": "Title Planning",
+          "short": "Title Planning"
+        },
+        {
+          "id": "s3-ingest",
+          "label": "S3 Ingest",
+          "short": "S3 Ingest"
+        }
+      ],
+      "alliances": [
+        {
+          "id": "content",
+          "name": "Content Platform",
+          "color": "#0d9488"
+        },
+        {
+          "id": "media",
+          "name": "Media Platform",
+          "color": "#7c3aed"
+        },
+        {
+          "id": "streaming",
+          "name": "Streaming Alliances",
+          "color": "#1f80e0"
+        }
+      ],
+      "cells": null
+    }
+  ]
 };

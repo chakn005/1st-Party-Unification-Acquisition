@@ -17,6 +17,8 @@
   --disney-progress-bg: #fef3c7;
   --disney-pending: #64748b;
   --disney-pending-bg: #f1f5f9;
+  --disney-risk: #c0392b;
+  --disney-risk-bg: #fee2e2;
   --cpd-border: var(--disney-border);
   --cpd-surface: var(--disney-surface);
   --cpd-accent: var(--disney-blue-mid);
@@ -147,6 +149,7 @@ body {
 .cell-completed, .matrix-cell.completed { background: var(--disney-completed-bg); color: var(--disney-completed); }
 .cell-progress, .matrix-cell.in-progress { background: var(--disney-progress-bg); color: var(--disney-progress); }
 .cell-pending, .matrix-cell.pending { background: var(--disney-pending-bg); color: var(--disney-pending); }
+.cell-risk, .matrix-cell.risk { background: var(--disney-risk-bg); color: var(--disney-risk); }
 
 .matrix-cell {
   cursor: pointer;

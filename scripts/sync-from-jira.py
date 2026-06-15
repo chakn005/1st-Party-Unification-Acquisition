@@ -19,6 +19,37 @@ DATA_JSON = ROOT / "shared" / "data.json"
 DATA_JS = ROOT / "shared" / "data.js"
 INDEX_HTML = ROOT / "index.html"
 EPIC_KEY = "CPTR-72227"
+M1_CROSS_ALLIANCE_KEY = "CPTR-72676"
+
+M1_HEATMAP_COLUMNS = [
+    {"id": "metadata-artwork", "label": "Metadata/Artwork", "short": "Metadata/Artwork"},
+    {"id": "av-assets", "label": "AV Assets", "short": "AV Assets"},
+    {"id": "avails-rights", "label": "Avails/Rights", "short": "Avails/Rights"},
+    {"id": "title-planning", "label": "Title Planning", "short": "Title Planning"},
+    {"id": "s3-ingest", "label": "S3 Ingest", "short": "S3 Ingest"},
+]
+
+OVERVIEW_ALLIANCES = [
+    {"id": "content", "name": "Content Platform", "color": "#0d9488"},
+    {"id": "media", "name": "Media Platform", "color": "#7c3aed"},
+    {"id": "streaming", "name": "Streaming Alliances", "color": "#1f80e0"},
+]
+
+M1_COLUMN_KEYWORDS: dict[str, tuple[str, ...]] = {
+    "metadata-artwork": ("metadata", "artwork", "mmc", "manifest"),
+    "av-assets": ("av asset", "av assets", "audio", "video asset", "picture version"),
+    "avails-rights": ("avail", "rights", "rightsline", "falcon", "ema"),
+    "title-planning": ("title plan", "title planning", "catalog", "alid"),
+    "s3-ingest": ("s3", "ingest", "storage", "bucket"),
+}
+
+ALLIANCE_KEYWORDS: dict[str, tuple[str, ...]] = {
+    "content": ("content platform", "content alliance", "rightsline", "falcon", "cpm", "fda", "content portal"),
+    "media": ("media platform", "media alliance", " amp ", " sip ", " sip-", "av delivery", "xavier"),
+    "streaming": ("streaming alliance", "streaming", "dtc", "hulu", "disney+", "espn", "unified acquisition", "catalog ingest"),
+}
+
+HEATMAP_STATUS_RANK = {"completed": 0, "in-progress": 1, "pending": 2, "risk": 3}
 
 PRIMARY_PLANS = {
     "milestone1": "DMEDNINJA-17790",
@@ -80,6 +111,115 @@ def map_jira_status(name: str | None) -> str:
     if not name:
         return "pending"
     return JIRA_STATUS_MAP.get(name.strip().lower(), "pending")
+
+
+def map_jira_status(name: str | None) -> str:
+    if not name:
+        return "pending"
+    return JIRA_STATUS_MAP.get(name.strip().lower(), "pending")
+
+
+def map_heatmap_status(name: str | None) -> str:
+    """Map Jira issue status to heatmap cell status (pending | in-progress | completed | risk)."""
+    if not name:
+        return "pending"
+    low = name.strip().lower()
+    if any(k in low for k in ("risk", "blocked", "impediment", "fail", "failed", "aborted")):
+        return "risk"
+    if any(k in low for k in ("done", "closed", "resolved", "complete", "completed")):
+        return "completed"
+    if any(k in low for k in ("progress", "development", "active", "implementing")):
+        return "in-progress"
+    return "pending"
+
+
+def merge_heatmap_status(current: str, incoming: str) -> str:
+    """Keep the more severe status when multiple Jira issues map to one cell."""
+    return current if HEATMAP_STATUS_RANK[current] >= HEATMAP_STATUS_RANK[incoming] else incoming
+
+
+def build_empty_m1_heatmap_cells() -> dict:
+    col_ids = [c["id"] for c in M1_HEATMAP_COLUMNS]
+    return {
+        aid: {cid: {"status": "pending", "jiraKey": None, "summary": None} for cid in col_ids}
+        for aid in (a["id"] for a in OVERVIEW_ALLIANCES)
+    }
+
+
+def classify_heatmap_cell(summary: str) -> tuple[str | None, str | None]:
+    text = f" {summary.lower()} "
+    col_id: str | None = None
+    for col in M1_HEATMAP_COLUMNS:
+        label = col["label"].lower()
+        if label in text or label.replace("/", " ") in text:
+            col_id = col["id"]
+            break
+    if not col_id:
+        for cid, keywords in M1_COLUMN_KEYWORDS.items():
+            if any(k in text for k in keywords):
+                col_id = cid
+                break
+    alliance_id: str | None = None
+    for aid, keywords in ALLIANCE_KEYWORDS.items():
+        if any(k in text for k in keywords):
+            alliance_id = aid
+            break
+    return alliance_id, col_id
+
+
+def sync_program_heatmaps(client: JiraClient, server: str, data: dict) -> None:
+    cells = build_empty_m1_heatmap_cells()
+    epic_key = M1_CROSS_ALLIANCE_KEY
+    epic = client.issue(epic_key)
+    ef = epic["fields"]
+    matched = 0
+
+    for issue in fetch_epic_children(client, epic_key):
+        fields = issue.get("fields") or {}
+        summary = fields.get("summary") or issue.get("key", "")
+        alliance_id, col_id = classify_heatmap_cell(summary)
+        if not alliance_id or not col_id:
+            continue
+        st = map_heatmap_status(fields.get("status", {}).get("name"))
+        key = issue.get("key")
+        slot = cells[alliance_id][col_id]
+        cells[alliance_id][col_id] = {
+            "status": merge_heatmap_status(slot["status"], st),
+            "jiraKey": key,
+            "summary": summary[:160],
+        }
+        matched += 1
+
+    m1 = {
+        "id": "m1-cross-alliance",
+        "title": "Milestone 1 Cross Alliance Testing",
+        "subtitle": "Cross-alliance integration status by track — sourced from Jira epic",
+        "jiraKey": epic_key,
+        "jiraUrl": f"{server}/browse/{epic_key}",
+        "jiraStatus": ef.get("status", {}).get("name", "Unknown"),
+        "available": True,
+        "columns": M1_HEATMAP_COLUMNS,
+        "alliances": OVERVIEW_ALLIANCES,
+        "cells": cells,
+        "issuesMapped": matched,
+    }
+
+    m2 = {
+        "id": "m2-cross-alliance",
+        "title": "Milestone 2 Cross Alliance Testing",
+        "subtitle": "Test plan not yet defined in Jira",
+        "jiraKey": None,
+        "jiraUrl": None,
+        "jiraStatus": None,
+        "available": False,
+        "placeholderMessage": "Milestone 2 cross-alliance test plan is not yet available. Heatmap will populate when linked in Jira.",
+        "columns": M1_HEATMAP_COLUMNS,
+        "alliances": OVERVIEW_ALLIANCES,
+        "cells": None,
+    }
+
+    data["programHeatmaps"] = [m1, m2]
+    print(f"Program heatmap {epic_key}: {ef.get('summary', epic_key)[:60]} | {matched} child issues mapped to cells")
 
 
 def load_credentials() -> tuple[str, str, str | None, str | None, str]:
@@ -371,7 +511,7 @@ def main() -> int:
 
     for issue in fetch_epic_children(client, EPIC_KEY):
         key = issue["key"]
-        if key in PRIMARY_PLANS.values() or key == EPIC_KEY:
+        if key in PRIMARY_PLANS.values() or key == EPIC_KEY or key == M1_CROSS_ALLIANCE_KEY:
             continue
         summary = issue["fields"].get("summary") or key
         bucket = classify_plan(key, summary)
@@ -397,6 +537,13 @@ def main() -> int:
 
     data["relatedTestPlans"] = sorted(related_plans, key=lambda p: p["id"])
     data["programRollup"] = compute_program_rollup(data)
+
+    try:
+        sync_program_heatmaps(client, server, data)
+    except RuntimeError as exc:
+        print(f"Program heatmap sync skipped: {exc}", file=sys.stderr)
+        if not data.get("programHeatmaps"):
+            data["programHeatmaps"] = _default_program_heatmaps(server)
 
     version = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
     data["jira"] = {
@@ -439,6 +586,37 @@ def _default_milestones(plans: dict) -> list:
             "subtitle": "AMP order, SIP delivery, DTC ingest",
             "testPlan": plans.get("amp"),
             "workflowZoneIds": ["amp-path"],
+        },
+    ]
+
+
+def _default_program_heatmaps(server: str) -> list:
+    return [
+        {
+            "id": "m1-cross-alliance",
+            "title": "Milestone 1 Cross Alliance Testing",
+            "subtitle": "Cross-alliance integration status by track — sourced from Jira epic",
+            "jiraKey": M1_CROSS_ALLIANCE_KEY,
+            "jiraUrl": f"{server}/browse/{M1_CROSS_ALLIANCE_KEY}",
+            "jiraStatus": "Unknown",
+            "available": True,
+            "columns": M1_HEATMAP_COLUMNS,
+            "alliances": OVERVIEW_ALLIANCES,
+            "cells": build_empty_m1_heatmap_cells(),
+            "issuesMapped": 0,
+        },
+        {
+            "id": "m2-cross-alliance",
+            "title": "Milestone 2 Cross Alliance Testing",
+            "subtitle": "Test plan not yet defined in Jira",
+            "jiraKey": None,
+            "jiraUrl": None,
+            "jiraStatus": None,
+            "available": False,
+            "placeholderMessage": "Milestone 2 cross-alliance test plan is not yet available. Heatmap will populate when linked in Jira.",
+            "columns": M1_HEATMAP_COLUMNS,
+            "alliances": OVERVIEW_ALLIANCES,
+            "cells": None,
         },
     ]
 
