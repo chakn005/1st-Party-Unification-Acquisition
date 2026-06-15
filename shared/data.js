@@ -81,13 +81,13 @@ window.ACQUISITION_DATA = {
           "status": "in-progress",
           "executionStatus": "in-progress",
           "coverage": 10,
-          "pass": 29,
+          "pass": 30,
           "fail": 0,
           "blocked": 0,
           "inProgress": 0,
           "pending": 262,
-          "total": 291,
-          "updated": "2026-06-10",
+          "total": 292,
+          "updated": "2026-06-11",
           "assignee": "Vijay Gajendra",
           "issueType": "Test Plan"
         },
@@ -127,7 +127,7 @@ window.ACQUISITION_DATA = {
           "inProgress": 0,
           "pending": 84,
           "total": 107,
-          "updated": "2026-06-09",
+          "updated": "2026-06-11",
           "assignee": "Anush Kadam",
           "issueType": "Test Plan"
         }
@@ -167,10 +167,10 @@ window.ACQUISITION_DATA = {
   "programRollup": {
     "status": "in-progress",
     "coverage": 22,
-    "pass": 100,
+    "pass": 101,
     "fail": 0,
     "pending": 349,
-    "total": 449,
+    "total": 450,
     "planCount": 6,
     "plansComplete": 0,
     "milestonesComplete": 0,
@@ -478,14 +478,14 @@ window.ACQUISITION_DATA = {
     "baseUrl": "https://jira.disney.com",
     "browsePath": "/browse/",
     "epicKey": "CPTR-72227",
-    "lastSynced": "2026-06-10T13:51:21Z",
+    "lastSynced": "2026-06-15T07:10:19Z",
     "syncRequired": false,
     "syncTestPlans": [
       "DMEDNINJA-17790",
       "DMEDNINJA-17818",
       "OMFG-19970"
     ],
-    "dataVersion": "20260610135121",
+    "dataVersion": "20260615071019",
     "syncSource": "scripts/sync-from-jira.py"
   }
 };
