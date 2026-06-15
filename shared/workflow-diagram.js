@@ -192,22 +192,6 @@ function renderArchitectureCanvas(arch) {
   return `
     <div class="wf-arch-grid">
       <div class="wf-arch-group wf-arch-g-r1c1">
-        <h4>${escapeHtml(arch.groups.rightsAvails.label)}</h4>
-        <div class="wf-arch-chain">
-          <span class="wf-arch-node" data-arch-node="rightsline">Rightsline</span>${arrow}
-          <span class="wf-arch-node" data-arch-node="falcon">Falcon</span>
-        </div>
-      </div>
-      <div class="wf-arch-g-r1c2">${arrow}</div>
-      <div class="wf-arch-object wf-arch-g-r1c3">
-        <h4>${escapeHtml(arch.objects.avails.label)}</h4>
-        <div class="wf-arch-tags">${arch.objects.avails.tags.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
-      </div>
-      <div class="wf-arch-g-r1c4">${arrow}</div>
-      <div class="wf-arch-g-r1c5"><div class="wf-s3-icon">${formatS3BucketLabel(arch.storage.buckets[0])}</div></div>
-      <div class="wf-arch-g-r1c6 wf-arch-arrow-into-dtc">${arrow}</div>
-
-      <div class="wf-arch-group wf-arch-g-r2c1">
         <h4>${escapeHtml(arch.groups.assetsMedia.label)}</h4>
         <div class="wf-arch-chain">
           <span class="wf-arch-node" data-arch-node="amp">AMP</span>
@@ -215,13 +199,29 @@ function renderArchitectureCanvas(arch) {
           <span class="wf-arch-node" data-arch-node="sip">SIP</span>
         </div>
       </div>
-      <div class="wf-arch-g-r2c2">${arrow}</div>
-      <div class="wf-arch-object wf-arch-g-r2c3">
+      <div class="wf-arch-g-r1c2">${arrow}</div>
+      <div class="wf-arch-object wf-arch-g-r1c3">
         <h4>${escapeHtml(arch.objects.content.label)}</h4>
         <div class="wf-arch-tags">${arch.objects.content.tags.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
       </div>
+      <div class="wf-arch-g-r1c4">${arrow}</div>
+      <div class="wf-arch-g-r1c5"><div class="wf-s3-icon">${formatS3BucketLabel(arch.storage.buckets[1])}</div></div>
+      <div class="wf-arch-g-r1c6 wf-arch-arrow-into-dtc">${arrow}</div>
+
+      <div class="wf-arch-group wf-arch-g-r2c1">
+        <h4>${escapeHtml(arch.groups.rightsAvails.label)}</h4>
+        <div class="wf-arch-chain">
+          <span class="wf-arch-node" data-arch-node="rightsline">Rightsline</span>${arrow}
+          <span class="wf-arch-node" data-arch-node="falcon">Falcon</span>
+        </div>
+      </div>
+      <div class="wf-arch-g-r2c2">${arrow}</div>
+      <div class="wf-arch-object wf-arch-g-r2c3">
+        <h4>${escapeHtml(arch.objects.avails.label)}</h4>
+        <div class="wf-arch-tags">${arch.objects.avails.tags.map((t) => `<span>${escapeHtml(t)}</span>`).join("")}</div>
+      </div>
       <div class="wf-arch-g-r2c4">${arrow}</div>
-      <div class="wf-arch-g-r2c5"><div class="wf-s3-icon">${formatS3BucketLabel(arch.storage.buckets[1])}</div></div>
+      <div class="wf-arch-g-r2c5"><div class="wf-s3-icon">${formatS3BucketLabel(arch.storage.buckets[0])}</div></div>
       <div class="wf-arch-g-r2c6 wf-arch-arrow-into-dtc">${arrow}</div>
 
       <div class="wf-arch-dtc wf-arch-dtc-column">
