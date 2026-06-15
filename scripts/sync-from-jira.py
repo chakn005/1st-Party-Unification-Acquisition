@@ -36,11 +36,23 @@ OVERVIEW_ALLIANCES = [
 ]
 
 M1_COLUMN_KEYWORDS: dict[str, tuple[str, ...]] = {
-    "metadata-artwork": ("metadata", "artwork", "mmc", "manifest"),
-    "av-assets": ("av asset", "av assets", "audio", "video asset", "picture version"),
-    "avails-rights": ("avail", "rights", "rightsline", "falcon", "ema"),
-    "title-planning": ("title plan", "title planning", "catalog", "alid"),
-    "s3-ingest": ("s3", "ingest", "storage", "bucket"),
+    "metadata-artwork": ("metadata", "artwork", "mmc", "manifest", "component ui", "package submission", "coming soon"),
+    "av-assets": ("av asset", "av assets", "add asset", "video 1080", "2160p", "audio 24fps", "component api"),
+    "avails-rights": ("avail", "rights", "rightsline", "falcon", "ema avail"),
+    "title-planning": ("title plan", "title planning", "catalog", "alid", "disney+"),
+    "s3-ingest": ("s3 ingest", "ds ingest", "s3", "ingest", "storage", "bucket"),
+}
+
+COMPONENT_ALLIANCE_HINTS: dict[str, str] = {
+    "sip": "media",
+    "rightsline": "content",
+    "falcon": "content",
+    "cpm": "content",
+    "fda": "content",
+    "dtc": "streaming",
+    "hulu": "streaming",
+    "unified acquisition": "streaming",
+    "catalog": "streaming",
 }
 
 ALLIANCE_KEYWORDS: dict[str, tuple[str, ...]] = {
@@ -140,14 +152,18 @@ def merge_heatmap_status(current: str, incoming: str) -> str:
 
 def build_empty_m1_heatmap_cells() -> dict:
     col_ids = [c["id"] for c in M1_HEATMAP_COLUMNS]
-    return {
-        aid: {cid: {"status": "pending", "jiraKey": None, "summary": None} for cid in col_ids}
-        for aid in (a["id"] for a in OVERVIEW_ALLIANCES)
-    }
+    empty = {"status": "pending", "pass": 0, "fail": 0, "total": 0, "jiraKey": None, "testKeys": [], "summary": None}
+    return {aid: {cid: dict(empty) for cid in col_ids} for aid in (a["id"] for a in OVERVIEW_ALLIANCES)}
 
 
-def classify_heatmap_cell(summary: str) -> tuple[str | None, str | None]:
-    text = f" {summary.lower()} "
+def classify_heatmap_cell(
+    summary: str,
+    components: list[str] | None = None,
+    labels: list[str] | None = None,
+) -> tuple[str | None, str | None]:
+    comp_text = " ".join(components or []).lower()
+    label_text = " ".join(labels or []).lower()
+    text = f" {summary.lower()} {comp_text} {label_text} "
     col_id: str | None = None
     for col in M1_HEATMAP_COLUMNS:
         label = col["label"].lower()
@@ -164,44 +180,124 @@ def classify_heatmap_cell(summary: str) -> tuple[str | None, str | None]:
         if any(k in text for k in keywords):
             alliance_id = aid
             break
+    if not alliance_id:
+        for hint, aid in COMPONENT_ALLIANCE_HINTS.items():
+            if hint in comp_text or hint in text:
+                alliance_id = aid
+                break
+    if not alliance_id and col_id:
+        if "ingest" in text or "s3" in text:
+            alliance_id = "streaming"
+        elif "sip" in text:
+            alliance_id = "media"
     return alliance_id, col_id
 
 
-def sync_program_heatmaps(client: JiraClient, server: str, data: dict) -> None:
-    cells = build_empty_m1_heatmap_cells()
-    epic_key = M1_CROSS_ALLIANCE_KEY
-    epic = client.issue(epic_key)
-    ef = epic["fields"]
-    matched = 0
+def xray_status_to_heatmap(raw: str | None) -> str:
+    """Map Xray test execution status to heatmap cell status."""
+    if not raw:
+        return "pending"
+    u = str(raw).strip().upper()
+    if u in ("FAIL", "FAILED", "ABORTED", "BLOCKED"):
+        return "risk"
+    if u in ("PASS", "PASSED", "DONE"):
+        return "completed"
+    if u in ("EXECUTING", "IN PROGRESS", "INPROGRESS"):
+        return "in-progress"
+    return "pending"
 
-    for issue in fetch_epic_children(client, epic_key):
-        fields = issue.get("fields") or {}
-        summary = fields.get("summary") or issue.get("key", "")
-        alliance_id, col_id = classify_heatmap_cell(summary)
-        if not alliance_id or not col_id:
+
+def aggregate_tests_to_cell_status(statuses: list[str]) -> str:
+    if not statuses:
+        return "pending"
+    if any(s == "risk" for s in statuses):
+        return "risk"
+    if all(s == "completed" for s in statuses):
+        return "completed"
+    if any(s in ("in-progress", "completed") for s in statuses):
+        return "in-progress"
+    return "pending"
+
+
+def build_heatmap_cell_from_tests(tests: list[dict]) -> dict:
+    if not tests:
+        return {"status": "pending", "pass": 0, "fail": 0, "total": 0, "jiraKey": None, "testKeys": [], "summary": None}
+    statuses = [t["heatmapStatus"] for t in tests]
+    keys = [t["key"] for t in tests]
+    passed = sum(1 for s in statuses if s == "completed")
+    failed = sum(1 for s in statuses if s == "risk")
+    total = len(tests)
+    return {
+        "status": aggregate_tests_to_cell_status(statuses),
+        "pass": passed,
+        "fail": failed,
+        "total": total,
+        "jiraKey": keys[0] if len(keys) == 1 else None,
+        "testKeys": keys,
+        "summary": f"{passed}/{total} test(s)",
+    }
+
+
+def sync_program_heatmaps(client: "JiraClient", server: str, data: dict) -> None:
+    plan_key = M1_CROSS_ALLIANCE_KEY
+    plan = client.issue(plan_key)
+    pf = plan["fields"]
+    buckets: dict[tuple[str, str], list[dict]] = {}
+    unmapped = 0
+    execution_meta: list[dict] = []
+
+    executions = client.testplan_executions(plan_key)
+    for ex in executions:
+        ex_key = ex.get("key")
+        if not ex_key:
             continue
-        st = map_heatmap_status(fields.get("status", {}).get("name"))
-        key = issue.get("key")
-        slot = cells[alliance_id][col_id]
-        cells[alliance_id][col_id] = {
-            "status": merge_heatmap_status(slot["status"], st),
-            "jiraKey": key,
-            "summary": summary[:160],
-        }
-        matched += 1
+        execution_meta.append({
+            "key": ex_key,
+            "summary": ex.get("summary") or ex_key,
+            "url": f"{server}/browse/{ex_key}",
+        })
+        for test in client.testexec_tests(ex_key):
+            entry = _heatmap_test_entry(client, test)
+            if not entry:
+                continue
+            bucket_key = (entry["allianceId"], entry["columnId"])
+            if bucket_key[0] and bucket_key[1]:
+                buckets.setdefault(bucket_key, []).append(entry)
+            else:
+                unmapped += 1
+
+    if not buckets:
+        for test in client.testplan_tests(plan_key):
+            entry = _heatmap_test_entry(client, test)
+            if not entry:
+                continue
+            bucket_key = (entry["allianceId"], entry["columnId"])
+            if bucket_key[0] and bucket_key[1]:
+                buckets.setdefault(bucket_key, []).append(entry)
+            else:
+                unmapped += 1
+
+    cells = build_empty_m1_heatmap_cells()
+    tests_mapped = 0
+    for (alliance_id, col_id), tests in buckets.items():
+        cells[alliance_id][col_id] = build_heatmap_cell_from_tests(tests)
+        tests_mapped += len(tests)
 
     m1 = {
         "id": "m1-cross-alliance",
         "title": "Milestone 1 Cross Alliance Testing",
-        "subtitle": "Cross-alliance integration status by track — sourced from Jira epic",
-        "jiraKey": epic_key,
-        "jiraUrl": f"{server}/browse/{epic_key}",
-        "jiraStatus": ef.get("status", {}).get("name", "Unknown"),
+        "subtitle": "Cross-alliance integration status from Xray test plan executions and test cases",
+        "jiraKey": plan_key,
+        "jiraUrl": f"{server}/browse/{plan_key}",
+        "jiraStatus": pf.get("status", {}).get("name", "Unknown"),
+        "issueType": (pf.get("issuetype") or {}).get("name"),
         "available": True,
         "columns": M1_HEATMAP_COLUMNS,
         "alliances": OVERVIEW_ALLIANCES,
         "cells": cells,
-        "issuesMapped": matched,
+        "testExecutions": execution_meta,
+        "testsMapped": tests_mapped,
+        "testsUnmapped": unmapped,
     }
 
     m2 = {
@@ -219,7 +315,38 @@ def sync_program_heatmaps(client: JiraClient, server: str, data: dict) -> None:
     }
 
     data["programHeatmaps"] = [m1, m2]
-    print(f"Program heatmap {epic_key}: {ef.get('summary', epic_key)[:60]} | {matched} child issues mapped to cells")
+    ex_count = len(execution_meta)
+    print(
+        f"Program heatmap {plan_key}: {pf.get('summary', plan_key)[:55]} | "
+        f"{ex_count} test execution(s) | {tests_mapped} test case(s) mapped | {unmapped} unmapped"
+    )
+
+
+def _heatmap_test_entry(client: "JiraClient", test: dict) -> dict | None:
+    key = test.get("key") or test.get("testKey")
+    if not key:
+        return None
+    raw_status = test.get("status") or test.get("latestStatus")
+    if isinstance(raw_status, dict):
+        raw_status = raw_status.get("name")
+    heatmap_status = xray_status_to_heatmap(raw_status)
+
+    issue = client.issue_detail(key)
+    fields = issue.get("fields") or {}
+    summary = fields.get("summary") or key
+    components = [c.get("name", "") for c in (fields.get("components") or []) if c.get("name")]
+    labels = list(fields.get("labels") or [])
+    alliance_id, col_id = classify_heatmap_cell(summary, components, labels)
+    if not alliance_id or not col_id:
+        return None
+    return {
+        "key": key,
+        "summary": summary[:160],
+        "heatmapStatus": heatmap_status,
+        "allianceId": alliance_id,
+        "columnId": col_id,
+        "xrayStatus": str(raw_status or "TODO"),
+    }
 
 
 def load_credentials() -> tuple[str, str, str | None, str | None, str]:
@@ -279,6 +406,12 @@ class JiraClient:
             params={"fields": "summary,status,assignee,reporter,updated,created,issuetype"},
         )
 
+    def issue_detail(self, key: str) -> dict:
+        return self._get(
+            f"/rest/api/2/issue/{key}",
+            params={"fields": "summary,status,labels,components,issuetype"},
+        )
+
     def search(self, jql: str, max_results: int = 100) -> list:
         data = self._get(
             "/rest/api/2/search",
@@ -296,6 +429,27 @@ class JiraClient:
         while True:
             data = self._get(
                 f"/rest/raven/1.0/api/testplan/{plan_key}/test",
+                params={"limit": 100, "page": page},
+            )
+            batch = data if isinstance(data, list) else []
+            if not batch:
+                break
+            results.extend(batch)
+            if len(batch) < 100:
+                break
+            page += 1
+        return results
+
+    def testplan_executions(self, plan_key: str) -> list:
+        data = self._get(f"/rest/raven/1.0/api/testplan/{plan_key}/testexecution")
+        return data if isinstance(data, list) else []
+
+    def testexec_tests(self, exec_key: str) -> list:
+        page = 1
+        results: list = []
+        while True:
+            data = self._get(
+                f"/rest/raven/1.0/api/testexec/{exec_key}/test",
                 params={"limit": 100, "page": page},
             )
             batch = data if isinstance(data, list) else []
@@ -603,7 +757,9 @@ def _default_program_heatmaps(server: str) -> list:
             "columns": M1_HEATMAP_COLUMNS,
             "alliances": OVERVIEW_ALLIANCES,
             "cells": build_empty_m1_heatmap_cells(),
-            "issuesMapped": 0,
+            "testExecutions": [],
+            "testsMapped": 0,
+            "testsUnmapped": 0,
         },
         {
             "id": "m2-cross-alliance",

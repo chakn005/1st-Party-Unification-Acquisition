@@ -77,16 +77,22 @@ function ovProgramHeatmapHeader(program) {
   const jiraMeta = program.jiraKey
     ? `${jiraLink(program.jiraKey, program.jiraKey, "ov-jira-epic-link")} · Jira: <strong>${escapeHtml(program.jiraStatus || "—")}</strong>`
     : `<span class="ov-program-tbd-badge">Test plan TBD</span>`;
-  const mapped =
-    program.issuesMapped != null
-      ? `<span class="ov-mapped-count">${program.issuesMapped} Jira issue(s) mapped</span>`
-      : "";
+  const execMeta =
+    program.testExecutions?.length
+      ? `<span class="ov-mapped-count">${program.testExecutions.length} test execution(s) · ${program.testsMapped ?? 0} test case(s) mapped</span>`
+      : program.testsMapped != null
+        ? `<span class="ov-mapped-count">${program.testsMapped} test case(s) mapped</span>`
+        : "";
+  const execLinks = (program.testExecutions || [])
+    .map((ex) => jiraLink(ex.key, ex.key))
+    .join(" · ");
   return `<header class="ov-program-heatmap-head">
     <div>
       <h3 class="ov-program-heatmap-title">${escapeHtml(program.title)}</h3>
       <p class="ov-program-heatmap-sub">${escapeHtml(program.subtitle || "")}</p>
+      ${execLinks ? `<p class="ov-program-heatmap-sub">Executions: ${execLinks}</p>` : ""}
     </div>
-    <div class="ov-program-heatmap-meta">${jiraMeta}${mapped ? `<br>${mapped}` : ""}</div>
+    <div class="ov-program-heatmap-meta">${jiraMeta}${execMeta ? `<br>${execMeta}` : ""}</div>
   </header>`;
 }
 
@@ -95,10 +101,22 @@ function ovStatusCell(program, alliance, col, cellData) {
   const status = ovEffectiveStatus(program.id, alliance.id, col.id, synced);
   const cls = ovStatusClass(status);
   const label = OV_STATUS_LABELS[status];
-  const jiraHint = cellData?.jiraKey
-    ? ` · ${cellData.jiraKey}${cellData.summary ? `: ${cellData.summary}` : ""}`
-    : "";
-  const title = `${alliance.name} · ${col.label}: ${label}${jiraHint}. Click to change status.`;
+  const testsHint =
+    cellData?.total > 0
+      ? ` · ${cellData.pass ?? 0}/${cellData.total} test(s) from Xray`
+      : "";
+  const jiraHint = cellData?.testKeys?.length
+    ? ` · ${cellData.testKeys.join(", ")}`
+    : cellData?.jiraKey
+      ? ` · ${cellData.jiraKey}`
+      : "";
+  const title = `${alliance.name} · ${col.label}: ${label}${testsHint}${jiraHint}. Click to change status.`;
+  const sub =
+    cellData?.total > 0
+      ? `<span class="ov-heat-sub">${cellData.pass ?? 0}/${cellData.total} tests</span>`
+      : cellData?.jiraKey
+        ? `<span class="ov-heat-sub">${escapeHtml(cellData.jiraKey)}</span>`
+        : "";
   return `<td class="matrix-cell ${cls} ov-status-cell ov-heat-cell"
     role="button"
     tabindex="0"
@@ -108,7 +126,7 @@ function ovStatusCell(program, alliance, col, cellData) {
     data-status="${escapeHtml(status)}"
     title="${escapeHtml(title)}">
     <span class="ov-status-label">${escapeHtml(label)}</span>
-    ${cellData?.jiraKey ? `<span class="ov-heat-sub">${escapeHtml(cellData.jiraKey)}</span>` : ""}
+    ${sub}
   </td>`;
 }
 
@@ -157,7 +175,7 @@ function ovSingleProgramHeatmap(program) {
         <tbody>${rows}</tbody>
       </table>
     </div>
-    <p class="matrix-note ov-matrix-note">Click any cell to cycle status: Pending → In Progress → Completed → Risk. Overrides save in this browser; re-sync from Jira refreshes base values.</p>
+    <p class="matrix-note ov-matrix-note">Status from Xray test execution results (TODO → Pending, EXECUTING → In Progress, PASS → Completed, FAIL → Risk). Click any cell to override locally. Re-sync refreshes base values from Jira.</p>
   </section>`;
 }
 
@@ -196,7 +214,7 @@ function renderOverviewTab() {
   root.innerHTML = `
     ${ovProgramKpis()}
     <h2 class="section-title">Program heatmaps</h2>
-    <p class="section-sub">Cross-alliance testing status by milestone. Milestone 1 data syncs from ${jiraLink("CPTR-72676", "CPTR-72676", "ov-jira-epic-link")}.</p>
+    <p class="section-sub">Cross-alliance testing status by milestone. Milestone 1 syncs Xray test executions and test cases from ${jiraLink("CPTR-72676", "CPTR-72676", "ov-jira-epic-link")} (Test Plan).</p>
     ${programs.map((p) => ovSingleProgramHeatmap(p)).join("")}
     <h2 class="section-title">Cross-alliance integration testing</h2>
     <p class="section-sub">Program-level QA rollup from epic ${jiraLink(ACQUISITION_DATA.epic?.key || "CPTR-72227", ACQUISITION_DATA.epic?.key || "CPTR-72227")}.</p>

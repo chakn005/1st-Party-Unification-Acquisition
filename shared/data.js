@@ -478,24 +478,25 @@ window.ACQUISITION_DATA = {
     "baseUrl": "https://jira.disney.com",
     "browsePath": "/browse/",
     "epicKey": "CPTR-72227",
-    "lastSynced": "2026-06-15T12:31:39Z",
+    "lastSynced": "2026-06-15T12:36:40Z",
     "syncRequired": false,
     "syncTestPlans": [
       "DMEDNINJA-17790",
       "DMEDNINJA-17818",
       "OMFG-19970"
     ],
-    "dataVersion": "20260615123139",
+    "dataVersion": "20260615123640",
     "syncSource": "scripts/sync-from-jira.py"
   },
   "programHeatmaps": [
     {
       "id": "m1-cross-alliance",
       "title": "Milestone 1 Cross Alliance Testing",
-      "subtitle": "Cross-alliance integration status by track — sourced from Jira epic",
+      "subtitle": "Cross-alliance integration status from Xray test plan executions and test cases",
       "jiraKey": "CPTR-72676",
       "jiraUrl": "https://jira.disney.com/browse/CPTR-72676",
       "jiraStatus": "In Progress",
+      "issueType": "Test Plan",
       "available": true,
       "columns": [
         {
@@ -545,86 +546,159 @@ window.ACQUISITION_DATA = {
         "content": {
           "metadata-artwork": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           },
           "av-assets": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           },
           "avails-rights": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           },
           "title-planning": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           },
           "s3-ingest": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           }
         },
         "media": {
           "metadata-artwork": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 2,
             "jiraKey": null,
-            "summary": null
+            "testKeys": [
+              "CPTR-70905",
+              "CPTR-70904"
+            ],
+            "summary": "0/2 test(s)"
           },
           "av-assets": {
             "status": "pending",
-            "jiraKey": null,
-            "summary": null
+            "pass": 0,
+            "fail": 0,
+            "total": 1,
+            "jiraKey": "CPTR-70906",
+            "testKeys": [
+              "CPTR-70906"
+            ],
+            "summary": "0/1 test(s)"
           },
           "avails-rights": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           },
           "title-planning": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           },
           "s3-ingest": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           }
         },
         "streaming": {
           "metadata-artwork": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           },
           "av-assets": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           },
           "avails-rights": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           },
           "title-planning": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           },
           "s3-ingest": {
             "status": "pending",
+            "pass": 0,
+            "fail": 0,
+            "total": 0,
             "jiraKey": null,
+            "testKeys": [],
             "summary": null
           }
         }
       },
-      "issuesMapped": 0
+      "testExecutions": [
+        {
+          "key": "CPTR-72677",
+          "summary": "QA - 1st Party Unification Milestone 1 Cross Alliance Testing",
+          "url": "https://jira.disney.com/browse/CPTR-72677"
+        }
+      ],
+      "testsMapped": 3,
+      "testsUnmapped": 0
     },
     {
       "id": "m2-cross-alliance",
