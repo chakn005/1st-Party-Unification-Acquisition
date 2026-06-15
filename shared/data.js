@@ -478,14 +478,14 @@ window.ACQUISITION_DATA = {
     "baseUrl": "https://jira.disney.com",
     "browsePath": "/browse/",
     "epicKey": "CPTR-72227",
-    "lastSynced": "2026-06-15T12:36:40Z",
+    "lastSynced": "2026-06-15T12:44:51Z",
     "syncRequired": false,
     "syncTestPlans": [
       "DMEDNINJA-17790",
       "DMEDNINJA-17818",
       "OMFG-19970"
     ],
-    "dataVersion": "20260615123640",
+    "dataVersion": "20260615124451",
     "syncSource": "scripts/sync-from-jira.py"
   },
   "programHeatmaps": [
@@ -513,11 +513,6 @@ window.ACQUISITION_DATA = {
           "id": "avails-rights",
           "label": "Avails/Rights",
           "short": "Avails/Rights"
-        },
-        {
-          "id": "title-planning",
-          "label": "Title Planning",
-          "short": "Title Planning"
         },
         {
           "id": "s3-ingest",
@@ -571,15 +566,6 @@ window.ACQUISITION_DATA = {
             "testKeys": [],
             "summary": null
           },
-          "title-planning": {
-            "status": "pending",
-            "pass": 0,
-            "fail": 0,
-            "total": 0,
-            "jiraKey": null,
-            "testKeys": [],
-            "summary": null
-          },
           "s3-ingest": {
             "status": "pending",
             "pass": 0,
@@ -623,15 +609,6 @@ window.ACQUISITION_DATA = {
             "testKeys": [],
             "summary": null
           },
-          "title-planning": {
-            "status": "pending",
-            "pass": 0,
-            "fail": 0,
-            "total": 0,
-            "jiraKey": null,
-            "testKeys": [],
-            "summary": null
-          },
           "s3-ingest": {
             "status": "pending",
             "pass": 0,
@@ -662,15 +639,6 @@ window.ACQUISITION_DATA = {
             "summary": null
           },
           "avails-rights": {
-            "status": "pending",
-            "pass": 0,
-            "fail": 0,
-            "total": 0,
-            "jiraKey": null,
-            "testKeys": [],
-            "summary": null
-          },
-          "title-planning": {
             "status": "pending",
             "pass": 0,
             "fail": 0,
@@ -724,11 +692,6 @@ window.ACQUISITION_DATA = {
           "id": "avails-rights",
           "label": "Avails/Rights",
           "short": "Avails/Rights"
-        },
-        {
-          "id": "title-planning",
-          "label": "Title Planning",
-          "short": "Title Planning"
         },
         {
           "id": "s3-ingest",

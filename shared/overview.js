@@ -1,14 +1,5 @@
 /* Overview tab — Program heatmaps (Option A, production) */
 
-const OV_STATUS_CYCLE = ["pending", "in-progress", "completed", "risk"];
-const OV_STATUS_LABELS = {
-  pending: "Pending",
-  "in-progress": "In Progress",
-  completed: "Completed",
-  risk: "Risk",
-};
-const OV_LS_PREFIX = "acq-heatmap-status:";
-
 function ovPrograms() {
   return ACQUISITION_DATA.programHeatmaps || [];
 }
@@ -17,52 +8,17 @@ function ovAlliances(program) {
   return program.alliances || [];
 }
 
-function ovStorageKey(programId, allianceId, colId) {
-  return `${OV_LS_PREFIX}${programId}:${allianceId}:${colId}`;
-}
-
-function ovEffectiveStatus(programId, allianceId, colId, syncedStatus) {
-  try {
-    const saved = localStorage.getItem(ovStorageKey(programId, allianceId, colId));
-    if (saved && OV_STATUS_CYCLE.includes(saved)) return saved;
-  } catch {
-    /* localStorage unavailable */
-  }
-  return syncedStatus || "pending";
-}
-
-function ovSetStatus(programId, allianceId, colId, status) {
-  try {
-    localStorage.setItem(ovStorageKey(programId, allianceId, colId), status);
-  } catch {
-    /* ignore */
-  }
-}
-
-function ovNextStatus(current) {
-  const i = OV_STATUS_CYCLE.indexOf(current);
-  return OV_STATUS_CYCLE[(i + 1) % OV_STATUS_CYCLE.length];
-}
-
-function ovStatusClass(status) {
-  if (status === "in-progress") return "in-progress";
-  if (status === "completed") return "completed";
-  if (status === "risk") return "risk";
-  return "pending";
-}
-
 function ovProgramKpis() {
   const programs = ovPrograms().filter((p) => p.available && p.cells);
-  const cells = programs.flatMap((p) =>
-    ovAlliances(p).flatMap((a) =>
-      (p.columns || []).map((c) =>
-        ovEffectiveStatus(p.id, a.id, c.id, p.cells[a.id]?.[c.id]?.status)
-      )
-    )
-  );
   const counts = { pending: 0, "in-progress": 0, completed: 0, risk: 0 };
-  cells.forEach((s) => {
-    if (counts[s] !== undefined) counts[s] += 1;
+  programs.forEach((p) => {
+    ovAlliances(p).forEach((a) => {
+      (p.columns || []).forEach((c) => {
+        const synced = p.cells?.[a.id]?.[c.id]?.status || "pending";
+        const slug = HeatmapShare.effectiveSlug(a.id, c.id, synced);
+        if (counts[slug] !== undefined) counts[slug] += 1;
+      });
+    });
   });
   return `<div class="kpi-row ov-kpi-row">
     <div class="kpi"><div class="v">${programs.length}</div><div class="l">Active heatmaps</div></div>
@@ -70,6 +26,17 @@ function ovProgramKpis() {
     <div class="kpi"><div class="v">${counts.completed}</div><div class="l">Completed</div></div>
     <div class="kpi"><div class="v">${counts.pending}</div><div class="l">Pending</div></div>
     <div class="kpi"><div class="v">${counts.risk}</div><div class="l">At risk</div></div>
+  </div>`;
+}
+
+function ovShareBar() {
+  return `<div class="ov-heatmap-share-bar">
+    <p class="matrix-note ov-sharing-hint"><strong>Sharing:</strong> Click cells to update status (Completed → In Progress → Pending → Risk). Use <strong>Copy share link</strong> so leaders open the latest snapshot via <code>?updated=…&amp;s=…</code> in the URL — same pattern as the <a href="https://chakn005.github.io/Content_flow_Integration/" target="_blank" rel="noopener noreferrer">Cross‑Alliance E2E console</a>.</p>
+    <div class="ov-heatmap-share-actions">
+      <button type="button" id="copyHeatmapShareLink" class="ov-heatmap-share-btn">Copy share link</button>
+      <span id="heatmapShareUpdated" class="ov-heatmap-share-updated" aria-live="polite"></span>
+    </div>
+    <p id="heatmapShareUrlPreview" class="ov-heatmap-share-preview" aria-live="polite"></p>
   </div>`;
 }
 
@@ -98,9 +65,9 @@ function ovProgramHeatmapHeader(program) {
 
 function ovStatusCell(program, alliance, col, cellData) {
   const synced = cellData?.status || "pending";
-  const status = ovEffectiveStatus(program.id, alliance.id, col.id, synced);
-  const cls = ovStatusClass(status);
-  const label = OV_STATUS_LABELS[status];
+  const status = HeatmapShare.effectiveSlug(alliance.id, col.id, synced);
+  const cls = HeatmapShare.classFor(status);
+  const label = HeatmapShare.labelFor(status);
   const testsHint =
     cellData?.total > 0
       ? ` · ${cellData.pass ?? 0}/${cellData.total} test(s) from Xray`
@@ -110,7 +77,7 @@ function ovStatusCell(program, alliance, col, cellData) {
     : cellData?.jiraKey
       ? ` · ${cellData.jiraKey}`
       : "";
-  const title = `${alliance.name} · ${col.label}: ${label}${testsHint}${jiraHint}. Click to change status.`;
+  const title = `${alliance.name} · ${col.label}: ${label}${testsHint}${jiraHint}. Click to cycle status.`;
   const sub =
     cellData?.total > 0
       ? `<span class="ov-heat-sub">${cellData.pass ?? 0}/${cellData.total} tests</span>`
@@ -152,10 +119,7 @@ function ovSingleProgramHeatmap(program) {
   }
 
   const head = (program.columns || [])
-    .map(
-      (c) =>
-        `<th title="${escapeHtml(c.label)}">${escapeHtml(c.short || c.label)}</th>`
-    )
+    .map((c) => `<th title="${escapeHtml(c.label)}">${escapeHtml(c.short || c.label)}</th>`)
     .join("");
 
   const rows = ovAlliances(program)
@@ -175,7 +139,7 @@ function ovSingleProgramHeatmap(program) {
         <tbody>${rows}</tbody>
       </table>
     </div>
-    <p class="matrix-note ov-matrix-note">Status from Xray test execution results (TODO → Pending, EXECUTING → In Progress, PASS → Completed, FAIL → Risk). Click any cell to override locally. Re-sync refreshes base values from Jira.</p>
+    <p class="matrix-note ov-matrix-note">Base status from Xray test executions on ${jiraLink("CPTR-72676", "CPTR-72676")}. Manual edits persist in this browser until you copy a share link for leaders.</p>
   </section>`;
 }
 
@@ -215,25 +179,27 @@ function renderOverviewTab() {
     ${ovProgramKpis()}
     <h2 class="section-title">Program heatmaps</h2>
     <p class="section-sub">Cross-alliance testing status by milestone. Milestone 1 syncs Xray test executions and test cases from ${jiraLink("CPTR-72676", "CPTR-72676", "ov-jira-epic-link")} (Test Plan).</p>
+    ${ovShareBar()}
     ${programs.map((p) => ovSingleProgramHeatmap(p)).join("")}
     <h2 class="section-title">Cross-alliance integration testing</h2>
     <p class="section-sub">Program-level QA rollup from epic ${jiraLink(ACQUISITION_DATA.epic?.key || "CPTR-72227", ACQUISITION_DATA.epic?.key || "CPTR-72227")}.</p>
     ${ovIntegrationCards()}`;
 
   bindOverviewCellInteractions(root);
+  HeatmapShare.setupShareUI(!!window.__acqHeatmapLoadedFromShare);
 }
 
 function bindOverviewCellInteractions(root) {
   root.querySelectorAll(".ov-status-cell[data-program]").forEach((el) => {
     const cycle = () => {
-      const programId = el.dataset.program;
       const allianceId = el.dataset.alliance;
       const colId = el.dataset.col;
-      const next = ovNextStatus(el.dataset.status);
-      ovSetStatus(programId, allianceId, colId, next);
+      const next = HeatmapShare.nextSlug(el.dataset.status);
+      HeatmapShare.saveCellEdit(allianceId, colId, next);
       el.dataset.status = next;
-      el.className = `matrix-cell ${ovStatusClass(next)} ov-status-cell ov-heat-cell`;
-      el.querySelector(".ov-status-label").textContent = OV_STATUS_LABELS[next];
+      el.className = `matrix-cell ${HeatmapShare.classFor(next)} ov-status-cell ov-heat-cell`;
+      el.querySelector(".ov-status-label").textContent = HeatmapShare.labelFor(next);
+      ovRefreshKpis();
     };
     el.addEventListener("click", cycle);
     el.addEventListener("keydown", (e) => {
@@ -243,4 +209,19 @@ function bindOverviewCellInteractions(root) {
       }
     });
   });
+}
+
+function ovRefreshKpis() {
+  const kpi = document.querySelector("#overview-panel .ov-kpi-row")?.parentElement;
+  const row = document.querySelector("#overview-panel .ov-kpi-row");
+  if (row) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = ovProgramKpis();
+    row.replaceWith(tmp.firstElementChild);
+  }
+}
+
+function initOverviewTab() {
+  HeatmapShare.applyFromQueryString();
+  renderOverviewTab();
 }

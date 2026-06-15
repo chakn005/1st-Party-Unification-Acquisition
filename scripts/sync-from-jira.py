@@ -25,7 +25,6 @@ M1_HEATMAP_COLUMNS = [
     {"id": "metadata-artwork", "label": "Metadata/Artwork", "short": "Metadata/Artwork"},
     {"id": "av-assets", "label": "AV Assets", "short": "AV Assets"},
     {"id": "avails-rights", "label": "Avails/Rights", "short": "Avails/Rights"},
-    {"id": "title-planning", "label": "Title Planning", "short": "Title Planning"},
     {"id": "s3-ingest", "label": "S3 Ingest", "short": "S3 Ingest"},
 ]
 
@@ -39,7 +38,6 @@ M1_COLUMN_KEYWORDS: dict[str, tuple[str, ...]] = {
     "metadata-artwork": ("metadata", "artwork", "mmc", "manifest", "component ui", "package submission", "coming soon"),
     "av-assets": ("av asset", "av assets", "add asset", "video 1080", "2160p", "audio 24fps", "component api"),
     "avails-rights": ("avail", "rights", "rightsline", "falcon", "ema avail"),
-    "title-planning": ("title plan", "title planning", "catalog", "alid", "disney+"),
     "s3-ingest": ("s3 ingest", "ds ingest", "s3", "ingest", "storage", "bucket"),
 }
 
