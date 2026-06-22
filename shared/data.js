@@ -478,14 +478,14 @@ window.ACQUISITION_DATA = {
     "baseUrl": "https://jira.disney.com",
     "browsePath": "/browse/",
     "epicKey": "CPTR-72227",
-    "lastSynced": "2026-06-22T06:49:56Z",
+    "lastSynced": "2026-06-22T07:00:38Z",
     "syncRequired": false,
     "syncTestPlans": [
       "DMEDNINJA-17790",
       "DMEDNINJA-17818",
       "OMFG-19970"
     ],
-    "dataVersion": "20260622064956",
+    "dataVersion": "20260622070038",
     "syncSource": "scripts/sync-from-jira.py"
   },
   "programHeatmaps": [
@@ -530,53 +530,10 @@ window.ACQUISITION_DATA = {
           "id": "media",
           "name": "Media Platform",
           "color": "#7c3aed"
-        },
-        {
-          "id": "streaming",
-          "name": "Streaming Alliances",
-          "color": "#1f80e0"
         }
       ],
       "cells": {
         "content": {
-          "metadata-artwork": {
-            "status": "pending",
-            "pass": 0,
-            "fail": 0,
-            "total": 0,
-            "jiraKey": null,
-            "testKeys": [],
-            "summary": null
-          },
-          "av-assets": {
-            "status": "pending",
-            "pass": 0,
-            "fail": 0,
-            "total": 0,
-            "jiraKey": null,
-            "testKeys": [],
-            "summary": null
-          },
-          "avails-rights": {
-            "status": "pending",
-            "pass": 0,
-            "fail": 0,
-            "total": 0,
-            "jiraKey": null,
-            "testKeys": [],
-            "summary": null
-          },
-          "s3-ingest": {
-            "status": "pending",
-            "pass": 0,
-            "fail": 0,
-            "total": 0,
-            "jiraKey": null,
-            "testKeys": [],
-            "summary": null
-          }
-        },
-        "media": {
           "metadata-artwork": {
             "status": "pending",
             "pass": 0,
@@ -619,7 +576,7 @@ window.ACQUISITION_DATA = {
             "summary": null
           }
         },
-        "streaming": {
+        "media": {
           "metadata-artwork": {
             "status": "pending",
             "pass": 0,
@@ -709,11 +666,6 @@ window.ACQUISITION_DATA = {
           "id": "media",
           "name": "Media Platform",
           "color": "#7c3aed"
-        },
-        {
-          "id": "streaming",
-          "name": "Streaming Alliances",
-          "color": "#1f80e0"
         }
       ],
       "cells": null

@@ -31,7 +31,6 @@ M1_HEATMAP_COLUMNS = [
 OVERVIEW_ALLIANCES = [
     {"id": "content", "name": "Content Platform", "color": "#0d9488"},
     {"id": "media", "name": "Media Platform", "color": "#7c3aed"},
-    {"id": "streaming", "name": "Streaming Alliances", "color": "#1f80e0"},
 ]
 
 M1_COLUMN_KEYWORDS: dict[str, tuple[str, ...]] = {
@@ -47,16 +46,11 @@ COMPONENT_ALLIANCE_HINTS: dict[str, str] = {
     "falcon": "content",
     "cpm": "content",
     "fda": "content",
-    "dtc": "streaming",
-    "hulu": "streaming",
-    "unified acquisition": "streaming",
-    "catalog": "streaming",
 }
 
 ALLIANCE_KEYWORDS: dict[str, tuple[str, ...]] = {
-    "content": ("content platform", "content alliance", "rightsline", "falcon", "cpm", "fda", "content portal"),
-    "media": ("media platform", "media alliance", " amp ", " sip ", " sip-", "av delivery", "xavier"),
-    "streaming": ("streaming alliance", "streaming", "dtc", "hulu", "disney+", "espn", "unified acquisition", "catalog ingest"),
+    "content": ("content platform", "content alliance", "rightsline", "falcon", "cpm", "fda", "content portal", "s3 ingest", "ingest", "bucket"),
+    "media": ("media platform", "media alliance", " amp ", " sip ", " sip-", "av delivery", "xavier", "metadata", "artwork", "av asset"),
 }
 
 HEATMAP_STATUS_RANK = {"completed": 0, "in-progress": 1, "pending": 2, "risk": 3}
@@ -185,7 +179,7 @@ def classify_heatmap_cell(
                 break
     if not alliance_id and col_id:
         if "ingest" in text or "s3" in text:
-            alliance_id = "streaming"
+            alliance_id = "content"
         elif "sip" in text:
             alliance_id = "media"
     return alliance_id, col_id
@@ -581,7 +575,7 @@ def infer_related_milestone(key: str, summary: str) -> str | None:
         return "amp"
     if "unified acquisition" in text or "rms-md" in text or "rms md" in text:
         return "milestone2"
-    if "streaming" in text or ("ingest" in text and "amp" not in text):
+    if "ingest" in text and "amp" not in text:
         return "milestone2"
     if "fda" in text:
         return "milestone2"

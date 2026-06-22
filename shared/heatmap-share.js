@@ -5,7 +5,7 @@ const HeatmapShare = (function () {
   const MANUAL_KEY = "acqHeatmapManualOverrides-v1";
   const UPDATED_KEY = "acqHeatmapSharedUpdatedAt-v1";
 
-  /** Pack order: 3 alliances × 4 columns (no Title Planning) */
+  /** Pack order: 2 alliances × 4 columns */
   const CELL_ORDER = [
     "content-metadata-artwork",
     "content-av-assets",
@@ -15,10 +15,6 @@ const HeatmapShare = (function () {
     "media-av-assets",
     "media-avails-rights",
     "media-s3-ingest",
-    "streaming-metadata-artwork",
-    "streaming-av-assets",
-    "streaming-avails-rights",
-    "streaming-s3-ingest",
   ];
 
   /** Index: 0=Completed, 1=In Progress, 2=Pending, 3=Risk (matches Content_flow cycle start) */
@@ -161,8 +157,9 @@ const HeatmapShare = (function () {
       const packed = BigInt(v !== undefined && v >= 0 && v <= 3 ? v : 7);
       bits |= packed << BigInt(index * 3);
     });
-    const bytes = new Uint8Array(5);
-    for (let i = 0; i < 5; i += 1) {
+    const byteCount = Math.ceil((CELL_ORDER.length * 3) / 8);
+    const bytes = new Uint8Array(byteCount);
+    for (let i = 0; i < byteCount; i += 1) {
       bytes[i] = Number((bits >> BigInt(i * 8)) & 0xffn);
     }
     return toBase64Url(bytes);
