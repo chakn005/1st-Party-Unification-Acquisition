@@ -1,0 +1,232 @@
+/* Floating program assistant */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+#acq-assistant-root {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 1200;
+  font-size: var(--font-content, 15px);
+}
+
+.acq-assistant-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1rem;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--disney-blue) 0%, var(--disney-blue-mid) 100%);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(10, 42, 102, 0.28);
+}
+
+.acq-assistant-toggle:hover {
+  filter: brightness(1.05);
+}
+
+.acq-assistant-toggle-icon {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.acq-assistant-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 0.75rem);
+  width: min(420px, calc(100vw - 2rem));
+  max-height: min(70vh, 560px);
+  display: flex;
+  flex-direction: column;
+  background: var(--disney-surface, #fff);
+  border: 1px solid var(--disney-border);
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(10, 42, 102, 0.18);
+  overflow: hidden;
+}
+
+.acq-assistant-panel[hidden] {
+  display: none !important;
+}
+
+.acq-assistant-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(180deg, var(--disney-blue-soft) 0%, #fff 100%);
+  border-bottom: 1px solid var(--disney-border);
+}
+
+.acq-assistant-title {
+  margin: 0;
+  font-size: var(--font-heading-sm, 1.125rem);
+  color: var(--disney-blue);
+}
+
+.acq-assistant-sub {
+  margin: 0.15rem 0 0;
+  font-size: var(--font-label, 13px);
+  color: var(--disney-muted);
+}
+
+.acq-assistant-close {
+  border: none;
+  background: transparent;
+  color: var(--disney-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 0.15rem;
+}
+
+.acq-assistant-close:hover {
+  color: var(--disney-blue);
+}
+
+.acq-assistant-log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  background: #fafbfd;
+}
+
+.acq-assistant-msg {
+  display: flex;
+}
+
+.acq-assistant-msg--user {
+  justify-content: flex-end;
+}
+
+.acq-assistant-bubble {
+  max-width: 92%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 12px;
+  line-height: 1.45;
+}
+
+.acq-assistant-msg--user .acq-assistant-bubble {
+  background: var(--disney-blue);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.acq-assistant-bubble--bot {
+  background: #fff;
+  border: 1px solid var(--disney-border);
+  border-bottom-left-radius: 4px;
+}
+
+.acq-assistant-bubble--bot p {
+  margin: 0 0 0.5rem;
+}
+
+.acq-assistant-bubble--bot p:last-child,
+.acq-assistant-bubble--bot ul:last-child {
+  margin-bottom: 0;
+}
+
+.acq-assistant-bubble--bot ul {
+  margin: 0.35rem 0 0.5rem;
+  padding-left: 1.15rem;
+}
+
+.acq-assistant-bubble--bot code {
+  font-size: 0.9em;
+  background: var(--disney-blue-soft);
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+.acq-assistant-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.55rem 0.85rem 0;
+  border-top: 1px solid var(--disney-border);
+  background: #fff;
+}
+
+.acq-assistant-chip {
+  border: 1px solid var(--disney-border);
+  background: var(--disney-blue-soft);
+  color: var(--disney-blue);
+  border-radius: 999px;
+  padding: 0.25rem 0.55rem;
+  font-size: var(--font-label, 13px);
+  cursor: pointer;
+}
+
+.acq-assistant-chip:hover {
+  background: var(--disney-blue);
+  color: #fff;
+  border-color: var(--disney-blue);
+}
+
+.acq-assistant-form {
+  display: flex;
+  gap: 0.45rem;
+  padding: 0.65rem 0.85rem 0.85rem;
+  background: #fff;
+}
+
+.acq-assistant-input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--disney-border);
+  border-radius: 8px;
+  padding: 0.5rem 0.65rem;
+  font: inherit;
+}
+
+.acq-assistant-input:focus {
+  outline: 2px solid rgba(31, 128, 224, 0.35);
+  border-color: var(--disney-blue-mid);
+}
+
+.acq-assistant-send {
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.85rem;
+  background: var(--disney-blue-mid);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.acq-assistant-send:hover {
+  background: var(--disney-blue);
+}
+
+@media (max-width: 520px) {
+  #acq-assistant-root {
+    right: 0.75rem;
+    bottom: 0.75rem;
+  }
+
+  .acq-assistant-toggle-label {
+    display: none;
+  }
+
+  .acq-assistant-panel {
+    width: calc(100vw - 1.5rem);
+  }
+}

@@ -1,0 +1,526 @@
+/* Overview tab — coverage heatmap & cross-alliance (local preview) */
+
+.ov-preview-banner {
+  background: linear-gradient(90deg, #0a2a66 0%, #1f80e0 50%, #0d9488 100%);
+  color: #fff;
+  padding: 0.55rem 1.25rem;
+  font-size: var(--font-label, 13px);
+  text-align: center;
+  font-weight: 600;
+}
+
+.ov-preview-banner a {
+  color: #fde68a;
+  margin-left: 0.75rem;
+}
+
+.ov-program-heatmap-section {
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 14px;
+  padding: 1.15rem 1.2rem 1.25rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-card, 0 2px 10px rgba(10, 42, 102, 0.07));
+}
+
+.ov-program-heatmap-section--tbd {
+  border-style: dashed;
+  background: #fafbfc;
+}
+
+.ov-program-heatmap-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.65rem 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.ov-program-heatmap-title {
+  margin: 0 0 0.25rem;
+  font-size: var(--font-heading-sm, 1.125rem);
+  font-weight: 700;
+  color: var(--disney-blue);
+}
+
+.ov-program-heatmap-sub {
+  margin: 0;
+  font-size: var(--font-content, 15px);
+  color: var(--disney-muted);
+  line-height: 1.45;
+}
+
+.ov-program-heatmap-meta {
+  font-size: var(--font-content, 15px);
+  color: var(--disney-text);
+  text-align: right;
+}
+
+.ov-jira-epic-link {
+  color: var(--disney-blue-mid);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.ov-jira-epic-link:hover {
+  text-decoration: underline;
+}
+
+.ov-program-tbd-badge {
+  display: inline-block;
+  font-size: var(--font-label, 13px);
+  font-weight: 700;
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+  background: var(--disney-pending-bg);
+  color: var(--disney-muted);
+  border: 1px dashed var(--disney-border);
+}
+
+.ov-program-heatmap-placeholder {
+  margin: 0 0 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  background: var(--disney-blue-soft);
+  font-size: var(--font-content, 15px);
+  color: var(--disney-blue);
+  line-height: 1.45;
+}
+
+.ov-heat-cell--tbd {
+  background: #f1f5f9 !important;
+  color: var(--disney-muted);
+  cursor: default;
+}
+
+.ov-heat-cell--tbd .ov-heat-pct {
+  font-size: var(--font-content, 15px);
+  font-weight: 700;
+  color: var(--disney-muted);
+}
+
+.ov-ms-card--tbd {
+  border-style: dashed;
+  background: #fafbfc;
+}
+
+.ov-heatmap-share-bar {
+  margin: 0 0 1.25rem;
+  padding: 0.85rem 1rem;
+  background: var(--disney-blue-soft);
+  border: 1px solid var(--disney-border);
+  border-radius: 10px;
+}
+
+.ov-heatmap-share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.ov-heatmap-share-btn {
+  font-size: var(--font-content, 15px);
+  font-weight: 700;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid var(--disney-blue-mid);
+  background: #fff;
+  color: var(--disney-blue);
+  cursor: pointer;
+}
+
+.ov-heatmap-share-btn:hover {
+  background: var(--disney-blue);
+  color: #fff;
+}
+
+.ov-heatmap-share-updated {
+  font-size: var(--font-label, 13px);
+  color: var(--disney-muted);
+}
+
+.ov-heatmap-share-preview {
+  margin: 0.35rem 0 0;
+  font-size: var(--font-label, 13px);
+  color: var(--disney-muted);
+  word-break: break-all;
+}
+
+.ov-sharing-hint {
+  margin: 0 !important;
+}
+
+.ov-sharing-hint a {
+  color: var(--disney-blue-mid);
+}
+
+.ov-matrix-wrap {
+  margin-bottom: 1rem;
+}
+
+.ov-matrix th,
+.ov-matrix td {
+  min-width: 100px;
+}
+
+.ov-matrix .ov-th-sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--disney-muted);
+  line-height: 1.25;
+  display: block;
+  margin-top: 0.15rem;
+}
+
+.ov-row-head {
+  text-align: left !important;
+  background: #f8fafc !important;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ov-alliance-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.35rem;
+  vertical-align: middle;
+}
+
+.ov-heat-cell {
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.ov-status-cell {
+  min-width: 108px;
+  text-align: center;
+  user-select: none;
+}
+
+.ov-status-cell:focus-visible {
+  outline: 2px solid var(--disney-blue-mid);
+  outline-offset: 2px;
+}
+
+.ov-status-label {
+  display: block;
+  font-size: var(--font-content, 15px);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.ov-mapped-count {
+  font-size: var(--font-label, 13px);
+  color: var(--disney-muted);
+  font-weight: 500;
+}
+
+.ov-cross-card--in-progress { border-left-color: var(--disney-progress); }
+
+.ov-heat-pct {
+  display: block;
+  font-size: 1.125rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.ov-heat-sub {
+  display: block;
+  font-size: var(--font-label, 13px);
+  color: var(--disney-muted);
+  margin-top: 0.15rem;
+  font-weight: 500;
+}
+
+.ov-matrix-note {
+  margin-bottom: 1.5rem;
+}
+
+.ov-cross-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.ov-cross-card {
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 12px;
+  padding: 1.1rem 1.15rem;
+  box-shadow: var(--shadow-card, 0 2px 10px rgba(10, 42, 102, 0.07));
+  border-left: 4px solid var(--disney-blue-mid);
+}
+
+.ov-cross-card--completed { border-left-color: var(--disney-completed); }
+.ov-cross-card--in-progress { border-left-color: var(--disney-progress); }
+.ov-cross-card--pending { border-left-color: var(--disney-pending); }
+
+.ov-cross-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.65rem;
+}
+
+.ov-cross-card-head h3 {
+  margin: 0;
+  font-size: var(--font-heading-sm, 1.125rem);
+  color: var(--disney-blue);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.ov-cross-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.5rem;
+}
+
+.ov-cross-chip {
+  font-size: var(--font-label, 13px);
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  border: 1.5px solid;
+  background: #fff;
+}
+
+.ov-cross-plus {
+  color: var(--disney-muted);
+  font-weight: 700;
+  font-size: var(--font-label, 13px);
+}
+
+.ov-cross-focus {
+  margin: 0 0 0.5rem;
+  font-size: var(--font-content, 15px);
+  color: var(--disney-muted);
+  line-height: 1.5;
+}
+
+.ov-cross-stats {
+  font-size: var(--font-content, 15px);
+  color: var(--disney-text);
+  margin-bottom: 0.5rem;
+}
+
+.ov-ms-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.ov-ms-tag {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  background: var(--disney-blue-soft);
+  color: var(--disney-blue);
+}
+
+.ov-ms-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.ov-ms-card {
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 12px;
+  padding: 1.1rem 1.15rem;
+  box-shadow: var(--shadow-card);
+}
+
+.ov-ms-card-num {
+  font-size: var(--font-label, 13px);
+  font-weight: 800;
+  color: var(--disney-blue-mid);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.ov-ms-card h3 {
+  margin: 0 0 0.75rem;
+  font-size: var(--font-content, 15px);
+  font-weight: 700;
+  color: var(--disney-blue);
+  line-height: 1.4;
+}
+
+.ov-mini-heat {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  margin-bottom: 0.65rem;
+}
+
+.ov-mini-cell {
+  text-align: center;
+  padding: 0.45rem 0.35rem;
+  border-radius: 8px;
+  border: 1px solid var(--disney-border);
+  font-size: var(--font-label, 13px);
+}
+
+.ov-mini-cell.completed { background: var(--disney-completed-bg); }
+.ov-mini-cell.in-progress { background: var(--disney-progress-bg); }
+.ov-mini-cell.pending { background: var(--disney-pending-bg); }
+
+.ov-mini-label {
+  display: block;
+  font-weight: 700;
+  color: var(--disney-blue);
+  font-size: 11px;
+}
+
+.ov-mini-pct {
+  display: block;
+  font-weight: 800;
+  margin-top: 0.1rem;
+}
+
+.ov-ms-card-avg {
+  font-size: var(--font-label, 13px);
+  color: var(--disney-muted);
+}
+
+.ov-split {
+  display: grid;
+  grid-template-columns: 1fr min(380px, 36vw);
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.ov-split-side .ov-cross-grid {
+  grid-template-columns: 1fr;
+}
+
+.ov-lane-board {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.ov-lane {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.ov-lane-label {
+  font-size: var(--font-label, 13px);
+  font-weight: 700;
+  color: var(--disney-blue);
+  line-height: 1.35;
+}
+
+.ov-lane-track {
+  background: var(--disney-pending-bg);
+  border-radius: 8px;
+  height: 36px;
+  overflow: hidden;
+}
+
+.ov-lane-bar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 0.65rem;
+  font-size: var(--font-label, 13px);
+  font-weight: 700;
+  color: #fff;
+  min-width: 4rem;
+  border-radius: 8px;
+}
+
+.ov-lane-bar--completed { background: var(--disney-completed); }
+.ov-lane-bar--in-progress { background: var(--disney-progress); }
+.ov-lane-bar--pending { background: var(--disney-pending); }
+
+.ov-hub-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.ov-hub-card {
+  display: block;
+  background: var(--disney-surface);
+  border: 1px solid var(--disney-border);
+  border-radius: 14px;
+  padding: 1.25rem 1.4rem;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.ov-hub-card:hover {
+  border-color: var(--disney-blue-mid);
+  box-shadow: var(--shadow-card-hover, 0 6px 20px rgba(10, 42, 102, 0.1));
+  transform: translateY(-2px);
+}
+
+.ov-hub-card h2 {
+  margin: 0 0 0.35rem;
+  font-size: var(--font-heading-md, 1.375rem);
+  color: var(--disney-blue);
+}
+
+.ov-hub-card p {
+  margin: 0;
+  color: var(--disney-muted);
+  font-size: var(--font-content, 15px);
+  line-height: 1.55;
+}
+
+.ov-hub-card .ov-tag {
+  display: inline-block;
+  margin-top: 0.65rem;
+  font-size: var(--font-label, 13px);
+  font-weight: 700;
+  padding: 0.22rem 0.55rem;
+  border-radius: 999px;
+  background: var(--disney-blue-soft);
+  color: var(--disney-blue);
+}
+
+.ov-tab-new::after {
+  content: "NEW";
+  position: absolute;
+  top: 0.35rem;
+  right: 0.25rem;
+  font-size: 9px;
+  font-weight: 800;
+  background: #0d9488;
+  color: #fff;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+}
+
+.disney-tabs button.ov-tab-new {
+  position: relative;
+}
+
+@media (max-width: 900px) {
+  .ov-split {
+    grid-template-columns: 1fr;
+  }
+  .ov-lane {
+    grid-template-columns: 1fr;
+  }
+}
